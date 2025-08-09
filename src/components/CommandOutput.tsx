@@ -6,7 +6,6 @@ import SkillIconsGrid from './SkillIcons'
 import ProjectPreviews from './ProjectPreviews'
 import MovingSkills from './MovingSkills'
 import MovingSkillsBands from './MovingSkillsBands'
-import FloatingSkillsAnimation from './FloatingSkillsAnimation'
 import { portfolioData } from '@/data/portfolioData'
 
 interface CommandOutputProps {
@@ -78,24 +77,7 @@ const CommandOutput: React.FC<CommandOutputProps> = ({ type, content, component 
               <MovingSkills skills={portfolioData.skills} variant="default" />
             </motion.div>
 
-            {/* Floating Skills Animation (Particle Style) - Desktop only */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-12 hidden lg:block relative bg-gradient-to-br from-purple-900/10 to-blue-900/10 rounded-xl border border-purple-500/20 overflow-hidden"
-              style={{ minHeight: '400px' }}
-            >
-              <div className="relative z-10 p-6 pb-0">
-                <h3 className="text-xl font-semibold text-purple-400 mb-2 flex items-center">
-                  <span className="mr-2">🌟</span> Floating Particle Skills
-                </h3>
-                <p className="text-gray-400 text-sm mb-4">
-                  Advanced floating animation with smooth bezier curves and particle-like movement
-                </p>
-              </div>
-              <FloatingSkillsAnimation className="rounded-xl" />
-            </motion.div>
+
 
             {/* Interactive Detailed Skills Grid */}
             <motion.div
