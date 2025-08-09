@@ -172,10 +172,13 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
                     src={skill.logoUrl}
                     alt={skill.name}
                     className="w-full h-full object-contain drop-shadow-lg"
-                    onError={(e) => {
+                    onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                       // Fallback to emoji if image fails to load
                       e.currentTarget.style.display = 'none'
-                      e.currentTarget.nextElementSibling!.style.display = 'block'
+                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement
+                      if (nextElement) {
+                        nextElement.style.display = 'block'
+                      }
                     }}
                   />
                 ) : null}
