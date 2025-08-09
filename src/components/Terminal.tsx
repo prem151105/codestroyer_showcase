@@ -90,36 +90,29 @@ export default function Terminal() {
   const prompt = `visitor@anurag:~$ `
 
   return (
-    <div className="min-h-screen font-mono-advanced terminal-text terminal-content">
+    <div className="min-h-screen bg-black text-green-400 font-mono-advanced terminal-text">
       <div 
         ref={terminalRef}
-        className="p-6 overflow-hidden"
-        style={{ height: '100vh' }}
+        className="p-8 min-h-screen"
         onClick={() => inputRef.current?.focus()}
       >
-        <div className="flex-1 flex flex-col">
-          {/* Show welcome when no history */}
-          {history.length === 0 && (
-            <div className="flex-1 flex flex-col justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2 }}
-                className="text-center"
-              >
-                <h1 className="text-5xl font-bold mb-6 text-warning tracking-wider" style={{fontWeight: 700, letterSpacing: '0.1em'}}>ANURAG</h1>
-                <p className="mb-4">Welcome to my portfolio!</p>
-                <p className="mb-2">Type <span className="text-warning">help</span> to get a list of available commands.</p>
-                <p className="text-sm text-secondary">Use <span className="text-warning">↑</span> and <span className="text-warning">↓</span> to navigate command history.</p>
-              </motion.div>
-            </div>
-          )}
+        {/* Clean Welcome */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold mb-6 text-orange-400 tracking-wider text-center">ANURAG</h1>
+          <p className="mb-4">Welcome to my portfolio!</p>
+          <p className="mb-2">Type <span className="text-orange-400">help</span> to get a list of available commands.</p>
+          <p className="text-sm text-gray-400">Use <span className="text-orange-400">↑</span> and <span className="text-orange-400">↓</span> to navigate command history.</p>
+        </motion.div>
 
-        {/* Command History - Limited to fit screen */}
-        {history.length > 0 && (
-          <div className="space-y-2 max-h-96 overflow-hidden flex-1">
-            <AnimatePresence>
-              {history.slice(-3).map((entry, index) => (
+        {/* Command History - Full scrollable history */}
+        <div className="space-y-2 mb-8">
+          <AnimatePresence>
+            {history.map((entry, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
@@ -130,14 +123,13 @@ export default function Terminal() {
               >
                 {entry.type === 'command' && (
                   <div className="flex">
-                    <span className="text-success">{prompt}</span>
-                    <span>{entry.content}</span>
+                    <span className="text-cyan-400">{prompt}</span>
+                    <span className="text-white">{entry.content}</span>
                   </div>
                 )}
                 {entry.type === 'output' && (
                   <div 
-                    className="ml-4 whitespace-pre-wrap text-sm leading-relaxed"
-                    style={{ maxHeight: '200px', overflow: 'hidden' }}
+                    className="ml-4 whitespace-pre-wrap text-green-400"
                     dangerouslySetInnerHTML={{ __html: entry.content }}
                   />
                 )}
@@ -148,22 +140,20 @@ export default function Terminal() {
                 )}
               </motion.div>
             ))}
-            </AnimatePresence>
-          </div>
-        )}
+          </AnimatePresence>
         </div>
 
-        {/* Current Input - Fixed at bottom */}
-        <form onSubmit={handleSubmit} className="mt-auto">
+        {/* Current Input */}
+        <form onSubmit={handleSubmit} className="sticky bottom-0 bg-black py-2">
           <div className="flex items-center">
-            <span className="text-success">{prompt}</span>
+            <span className="text-cyan-400">{prompt}</span>
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="command-input ml-1"
+              className="bg-transparent border-none outline-none text-white font-mono ml-1 flex-1"
               disabled={isTyping}
               autoComplete="off"
               spellCheck={false}
@@ -171,7 +161,7 @@ export default function Terminal() {
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 1, repeat: Infinity }}
-              className="cursor"
+              className="text-white"
             >
               _
             </motion.span>

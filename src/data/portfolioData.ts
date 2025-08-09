@@ -1,10 +1,10 @@
 // SIMPLIFIED PORTFOLIO DATA - Keep it clean and professional
 export const portfolioData = {
   personal: {
-    name: "Anurag Jayaswal",
+    name: "Anurag Jaisswal",
     title: "AI/ML Developer & Software Engineer",
     location: "Gwalior, Madhya Pradesh",
-    email: "aj7879219119@gmail.com",
+    email: "anurag1.230101034@iiitbh.ac.in",
     phone: "+91-7879219119"
   },
   
@@ -14,8 +14,8 @@ and solving complex problems.`,
   
   experience: [
     {
-      company: "Contentkosh",
-      role: "AI Agent Developer (R&D)",
+      company: "Content.kosh",
+      role: "Gen AI Developer INTERN",
       period: "May 2025 - Jul 2025",
       highlights: [
         "Built Multi Agent LLM Systems with 50% accuracy improvement",
@@ -58,7 +58,7 @@ and solving complex problems.`,
       institution: "IIIT Bhagalpur",
       degree: "B.Tech Computer Science & Engineering",
       period: "2023 - 2027",
-      cgpa: "7.71/10"
+      cgpa: "7.75/10"
     },
     {
       institution: "Cambridge School",

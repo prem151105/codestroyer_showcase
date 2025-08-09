@@ -2,11 +2,11 @@ import { portfolioData } from '@/data/portfolioData'
 import { commands, commandCategories } from '@/data/commands'
 
 const colors = {
-  primary: '<span class="text-success">',
-  secondary: '<span class="text-accent">',
-  accent: '<span class="text-warning">',
-  error: '<span class="text-error">',
-  success: '<span class="text-success">',
+  primary: '<span class="text-cyan-400">',
+  secondary: '<span class="text-orange-400">',
+  accent: '<span class="text-yellow-400">',
+  error: '<span class="text-red-400">',
+  success: '<span class="text-green-400">',
   end: '</span>'
 }
 
@@ -42,15 +42,29 @@ Type any command to get started!`
   about: () => {
     return `${formatWithColor('👨‍💻 About Anurag Jayaswal', colors.secondary)}
 
-AI/ML Developer & Computer Science Student
-📍 Gwalior, MP | 🎓 IIIT Bhagalpur (CGPA: 7.71)
+${formatWithColor('Current Role:', colors.primary)} AI/ML Developer & Computer Science Student
+${formatWithColor('Location:', colors.primary)} 📍 Gwalior, Madhya Pradesh
+${formatWithColor('Education:', colors.primary)} 🎓 IIIT Bhagalpur (CGPA: 7.71/10)
+${formatWithColor('Email:', colors.primary)} 📧 aj7879219119@gmail.com
 
-${formatWithColor('Quick Stats:', colors.accent)}
-🏆 LeetCode Expert (1500+ rating, 250+ problems)
-⭐ Codeforces Specialist (1468 max rating)
-🚀 AI Agent Developer at Contentkosh
+${formatWithColor('🚀 Professional Overview:', colors.accent)}
+Passionate AI/ML Developer with expertise in multi-agent systems and competitive programming. 
+Currently working as an AI Agent Developer at Contentkosh, focusing on LLM optimization and 
+NLP solutions. Strong foundation in Python, machine learning, and software engineering.
 
-${formatWithColor('🟢 Currently seeking SDE & AI/ML opportunities!', colors.success)}
+${formatWithColor('🏆 Achievements:', colors.secondary)}
+• LeetCode Expert: 1500+ rating, 250+ problems solved
+• Codeforces Specialist: 1468 max rating, 25+ contests
+• CodeChef 2-Star: Global Rank #11 in Contest 164 Div 2
+• IOQM Qualified
+
+${formatWithColor('🎯 Current Goals:', colors.accent)}
+• Building innovative AI/ML solutions
+• Mastering competitive programming
+• Contributing to open-source projects
+• Seeking full-time SDE & AI/ML opportunities
+
+${formatWithColor('🟢 Status: Actively seeking opportunities!', colors.success)}
 `
   },
 
@@ -168,17 +182,28 @@ ${formatWithColor('💡 Interested in collaboration?', colors.accent)} Let's con
   contact: () => {
     return `${formatWithColor('📧 Contact Information', colors.secondary)}
 
-${formatWithColor('Email:', colors.primary)} ${portfolioData.personal.email}
-${formatWithColor('Phone:', colors.primary)} ${portfolioData.personal.phone}
-${formatWithColor('Location:', colors.primary)} ${portfolioData.personal.location}
+${formatWithColor('Personal Details:', colors.accent)}
+${formatWithColor('Name:', colors.primary)}        Anurag Jayaswal
+${formatWithColor('Email:', colors.primary)}       ${portfolioData.personal.email}
+${formatWithColor('Phone:', colors.primary)}       ${portfolioData.personal.phone}  
+${formatWithColor('Location:', colors.primary)}    ${portfolioData.personal.location}
 
-${formatWithColor('🌐 Connect with me:', colors.accent)}
-LinkedIn: https://linkedin.com/in/anurag-jayaswal
-GitHub: https://github.com/anuragj7879
-LeetCode: https://leetcode.com/anuragj7879
-Codeforces: https://codeforces.com/profile/anuragj7879
+${formatWithColor('🌐 Professional Profiles:', colors.accent)}
+${formatWithColor('LinkedIn:', colors.primary)}    <a href="https://linkedin.com/in/anurag-jayaswal" class="terminal-link">https://linkedin.com/in/anurag-jayaswal</a>
+${formatWithColor('GitHub:', colors.primary)}      <a href="https://github.com/anuragj7879" class="terminal-link">https://github.com/anuragj7879</a>
+${formatWithColor('Portfolio:', colors.primary)}   <a href="https://anurag-portfolio.vercel.app" class="terminal-link">https://anurag-portfolio.vercel.app</a>
 
-${formatWithColor('🚀 Open to SDE & AI/ML opportunities!', colors.success)}
+${formatWithColor('🏆 Coding Profiles:', colors.accent)}
+${formatWithColor('LeetCode:', colors.primary)}    <a href="https://leetcode.com/anuragj7879" class="terminal-link">https://leetcode.com/anuragj7879</a>
+${formatWithColor('Codeforces:', colors.primary)}  <a href="https://codeforces.com/profile/anuragj7879" class="terminal-link">https://codeforces.com/profile/anuragj7879</a>
+${formatWithColor('CodeChef:', colors.primary)}    <a href="https://codechef.com/users/anuragj7879" class="terminal-link">https://codechef.com/users/anuragj7879</a>
+
+${formatWithColor('💬 Let\'s Connect!', colors.secondary)}
+I'm always open to discussing new opportunities, collaborating on projects,
+or just having a chat about technology and AI/ML! Feel free to reach out
+through any of the channels above.
+
+${formatWithColor('🚀 Currently seeking: SDE & AI/ML opportunities!', colors.success)}
 `
   },
 
