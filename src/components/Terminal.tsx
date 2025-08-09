@@ -96,16 +96,24 @@ export default function Terminal() {
 
   return (
     <div className="min-h-screen relative overflow-hidden terminal-container">
-      {/* Enhanced Dynamic Background Effects */}
-      <div className="absolute inset-0 terminal-grid opacity-20"></div>
+      {/* Spectacular Dynamic Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/20 to-black"></div>
       
-      {/* Subtle Matrix Rain Effect */}
+      {/* Advanced Particle System */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="matrix-rain"></div>
+        <div className="cosmic-particles"></div>
+        <div className="neural-network"></div>
+        <div className="floating-orbs"></div>
       </div>
       
-      {/* Floating Particles */}
-      <div className="floating-particles absolute inset-0"></div>
+      {/* Dynamic Light Rays */}
+      <div className="absolute inset-0">
+        <div className="light-rays"></div>
+        <div className="pulse-rings"></div>
+      </div>
+      
+      {/* Morphing Background Shapes */}
+      <div className="absolute inset-0 morphing-shapes"></div>
       
       <div 
         ref={terminalRef}
@@ -194,29 +202,63 @@ export default function Terminal() {
           </AnimatePresence>
         </div>
 
-        {/* Enhanced Input Area */}
-        <form onSubmit={handleSubmit} className="sticky bottom-0 bg-gray-900/90 backdrop-blur-md rounded-lg border border-gray-700 p-3 shadow-2xl">
-          <div className="flex items-center relative">
-            <span className="command-prompt text-sm md:text-base">{prompt}</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => {
-                const newValue = e.target.value
-                setInput(newValue)
-                updateSuggestions(newValue)
-              }}
-              onKeyDown={handleKeyDown}
-              className="command-input ml-1 flex-1 text-sm md:text-base"
-              disabled={isTyping}
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="Type a command... (try 'help')"
-            />
-            <AnimatedCursor isTyping={isTyping} variant="cyberpunk" />
+        {/* Spectacular Input Area */}
+        <motion.form 
+          onSubmit={handleSubmit} 
+          className="sticky bottom-0 p-1"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          <div className="relative group">
+            {/* Morphing Background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-xl transform scale-105 opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+            
+            {/* Dynamic Border */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 p-0.5 animate-pulse-slow">
+              <div className="rounded-full bg-black/90 backdrop-blur-xl h-full w-full"></div>
+            </div>
+            
+            {/* Input Container */}
+            <div className="relative flex items-center px-6 py-4 rounded-full">
+              <motion.span 
+                className="command-prompt text-base md:text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+                animate={{ 
+                  textShadow: ["0 0 10px rgba(0,255,255,0.5)", "0 0 20px rgba(128,0,255,0.5)", "0 0 10px rgba(0,255,255,0.5)"]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {prompt}
+              </motion.span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => {
+                  const newValue = e.target.value
+                  setInput(newValue)
+                  updateSuggestions(newValue)
+                }}
+                onKeyDown={handleKeyDown}
+                className="command-input-fluid ml-3 flex-1 text-base md:text-lg font-medium"
+                disabled={isTyping}
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="Start typing magic..."
+              />
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 360],
+                  filter: ["hue-rotate(0deg)", "hue-rotate(360deg)"]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <AnimatedCursor isTyping={isTyping} variant="cyberpunk" />
+              </motion.div>
+            </div>
           </div>
-        </form>
+        </motion.form>
 
         {/* Command Suggestions */}
         <div className="relative">

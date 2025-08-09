@@ -24,7 +24,7 @@ export function useTerminalLogic() {
     version: '1.0.0'
   }
 
-  // Real-time suggestions as user types
+  // Enhanced real-time suggestions with partial matching
   const updateSuggestions = useCallback((input: string) => {
     setCurrentInput(input)
     
@@ -38,12 +38,35 @@ export function useTerminalLogic() {
     const aliases = commands.flatMap(cmd => cmd.aliases || [])
     const allCommands = [...availableCommands, ...aliases]
     
-    const matchingCommands = allCommands
-      .filter(cmd => cmd.toLowerCase().startsWith(input.toLowerCase()))
-      .slice(0, 6) // Limit to 6 suggestions
+    // Enhanced matching: exact starts, partial matches, fuzzy matches
+    const inputLower = input.toLowerCase()
     
-    if (matchingCommands.length > 0 && input.length > 0) {
-      setSuggestions(matchingCommands)
+    const exactStarts = allCommands.filter(cmd => 
+      cmd.toLowerCase().startsWith(inputLower)
+    )
+    
+    const partialMatches = allCommands.filter(cmd => 
+      cmd.toLowerCase().includes(inputLower) && 
+      !cmd.toLowerCase().startsWith(inputLower)
+    )
+    
+    const fuzzyMatches = allCommands.filter(cmd => {
+      const cmdLower = cmd.toLowerCase()
+      let j = 0
+      for (let i = 0; i < cmdLower.length && j < inputLower.length; i++) {
+        if (cmdLower[i] === inputLower[j]) j++
+      }
+      return j === inputLower.length && 
+             !cmdLower.includes(inputLower) && 
+             !cmdLower.startsWith(inputLower)
+    })
+    
+    // Combine and prioritize results
+    const allMatches = [...exactStarts, ...partialMatches, ...fuzzyMatches]
+    const uniqueMatches = [...new Set(allMatches)].slice(0, 8)
+    
+    if (uniqueMatches.length > 0 && input.length > 0) {
+      setSuggestions(uniqueMatches)
       setShowSuggestions(true)
     } else {
       setShowSuggestions(false)
