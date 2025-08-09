@@ -4,6 +4,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTerminalLogic } from '@/hooks/useTerminalLogic'
 import CommandSuggestions from './CommandSuggestions'
+import AnimatedCursor from './AnimatedCursor'
+import Dynamic3DUI, { Floating3DCards } from './Dynamic3DUI'
+import CommandOutput from './CommandOutput'
+import LeftSideSkills from './LeftSideSkills'
 
 export default function Terminal() {
   const [input, setInput] = useState('')
@@ -18,7 +22,9 @@ export default function Terminal() {
     systemInfo,
     executeCommand,
     showSuggestions,
-    suggestions
+    suggestions,
+    updateSuggestions,
+    currentInput
   } = useTerminalLogic()
 
   // Auto-focus input
@@ -44,6 +50,7 @@ export default function Terminal() {
     
     await executeCommand(input.trim())
     setInput('')
+    updateSuggestions('')
     setHistoryIndex(-1)
     setIsTyping(false)
   }, [input, executeCommand])
@@ -90,10 +97,17 @@ export default function Terminal() {
   const prompt = `visitor@anurag:~$ `
 
   return (
-    <div className="min-h-screen bg-black text-green-400 font-mono-advanced terminal-text">
+    <div className="min-h-screen bg-black text-green-400 font-mono-advanced terminal-text relative overflow-hidden">
+      {/* Left Side Moving Skills */}
+      <LeftSideSkills />
+      
+      {/* 3D Background */}
+      <Dynamic3DUI />
+      <Floating3DCards />
+      
       <div 
         ref={terminalRef}
-        className="p-8 min-h-screen"
+        className="p-4 md:p-8 lg:pl-24 min-h-screen relative z-20 terminal-scroll"
         onClick={() => inputRef.current?.focus()}
       >
         {/* Clean Welcome */}
@@ -101,16 +115,25 @@ export default function Terminal() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <h1 className="text-4xl font-bold mb-6 text-orange-400 tracking-wider text-center">ANURAG</h1>
-          <p className="mb-4">Welcome to my portfolio!</p>
-          <p className="mb-2">Type <span className="text-orange-400">help</span> to get a list of available commands.</p>
-          <p className="text-sm text-gray-400">Use <span className="text-orange-400">↑</span> and <span className="text-orange-400">↓</span> to navigate command history.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-orange-400 tracking-wider text-center">ANURAG</h1>
+          <div className="text-center md:text-left space-y-2 md:space-y-0">
+            <p className="mb-2 md:mb-4 text-sm md:text-base">Welcome to my portfolio!</p>
+            <p className="mb-1 md:mb-2 text-sm md:text-base">
+              Type <span className="text-orange-400 font-semibold">help</span> to get a list of available commands.
+            </p>
+            <p className="text-xs md:text-sm text-gray-400">
+              <span className="hidden md:inline">Use </span>
+              <span className="text-orange-400">↑</span> and <span className="text-orange-400">↓</span> to navigate 
+              <span className="hidden md:inline"> command</span> history
+              <span className="md:hidden">.</span>
+            </p>
+          </div>
         </motion.div>
 
         {/* Command History - Full scrollable history */}
-        <div className="space-y-2 mb-8">
+        <div className="space-y-1 md:space-y-2 mb-6 md:mb-8">
           <AnimatePresence>
             {history.map((entry, index) => (
               <motion.div
@@ -127,16 +150,12 @@ export default function Terminal() {
                     <span className="text-white">{entry.content}</span>
                   </div>
                 )}
-                {entry.type === 'output' && (
-                  <div 
-                    className="ml-4 whitespace-pre-wrap text-green-400"
-                    dangerouslySetInnerHTML={{ __html: entry.content }}
+                {(entry.type === 'output' || entry.type === 'error' || entry.type === 'component') && (
+                  <CommandOutput 
+                    type={entry.type}
+                    content={entry.content}
+                    component={entry.component}
                   />
-                )}
-                {entry.type === 'error' && (
-                  <div className="ml-4 text-red-400">
-                    {entry.content}
-                  </div>
                 )}
               </motion.div>
             ))}
@@ -145,39 +164,41 @@ export default function Terminal() {
 
         {/* Current Input */}
         <form onSubmit={handleSubmit} className="sticky bottom-0 bg-black py-2">
-          <div className="flex items-center">
+          <div className="flex items-center relative">
             <span className="text-cyan-400">{prompt}</span>
             <input
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                const newValue = e.target.value
+                setInput(newValue)
+                updateSuggestions(newValue)
+              }}
               onKeyDown={handleKeyDown}
               className="bg-transparent border-none outline-none text-white font-mono ml-1 flex-1"
               disabled={isTyping}
               autoComplete="off"
               spellCheck={false}
             />
-            <motion.span
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="text-white"
-            >
-              _
-            </motion.span>
+            <AnimatedCursor isTyping={isTyping} variant="cyberpunk" />
           </div>
         </form>
 
         {/* Command Suggestions */}
-        {showSuggestions && suggestions.length > 0 && (
-          <CommandSuggestions 
-            suggestions={suggestions} 
-            onSelect={(cmd) => {
-              setInput(cmd)
-              inputRef.current?.focus()
-            }} 
-          />
-        )}
+        <div className="relative">
+          {showSuggestions && suggestions.length > 0 && (
+            <CommandSuggestions 
+              suggestions={suggestions} 
+              currentInput={currentInput}
+              onSelect={(cmd) => {
+                setInput(cmd)
+                updateSuggestions('')
+                inputRef.current?.focus()
+              }} 
+            />
+          )}
+        </div>
       </div>
 
 

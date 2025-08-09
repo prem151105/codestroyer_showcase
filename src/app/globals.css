@@ -331,6 +331,217 @@ a {
   text-decoration: none;
 }
 
+/* Enhanced 3D and Animation Support */
+.skill-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: rotateY(10deg) rotateX(5deg);
+}
+
+.project-thumbnail {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  cursor: pointer;
+}
+
+.project-thumbnail:hover {
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated background grid */
+.terminal-grid {
+  background-image: 
+    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Floating elements */
+.floating-card {
+  animation: float 3s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.floating-card:nth-child(2) {
+  animation-delay: -1s;
+}
+
+.floating-card:nth-child(3) {
+  animation-delay: -2s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotateY(0deg); }
+  50% { transform: translateY(-20px) rotateY(180deg); }
+}
+
+/* Enhanced cursor styles */
+.cursor-glow {
+  text-shadow: 0 0 10px currentColor;
+  animation: glow-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from { text-shadow: 0 0 5px currentColor; }
+  to { text-shadow: 0 0 15px currentColor, 0 0 20px currentColor; }
+}
+
+/* Command suggestion improvements */
+.suggestion-container {
+  backdrop-filter: blur(10px);
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-item {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover::before,
+.suggestion-item.selected::before {
+  background: linear-gradient(to bottom, #06b6d4, #3b82f6);
+}
+
+/* Loading and typing animations */
+.typing-indicator {
+  animation: typing-dots 1.5s infinite;
+}
+
+@keyframes typing-dots {
+  0%, 60%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+
+/* Smooth scrolling for terminal */
+.terminal-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6, 182, 212, 0.3) transparent;
+}
+
+/* Project modal enhancements */
+.modal-overlay {
+  backdrop-filter: blur(8px);
+  animation: modal-fade-in 0.3s ease-out;
+}
+
+.modal-content {
+  animation: modal-slide-up 0.3s ease-out;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-slide-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(50px) scale(0.9); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+/* 3D particle effects */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.8) 0%, rgba(6, 182, 212, 0) 100%);
+  animation: particle-float 4s linear infinite;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .floating-card {
+    animation: none;
+    position: static !important;
+  }
+  
+  .skill-card {
+    transform: none !important;
+  }
+  
+  .project-thumbnail {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .suggestion-container {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #ffffff;
+  }
+  
+  .terminal-grid {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .floating-card {
+    animation: none;
+  }
+  
+  .terminal-grid {
+    animation: none;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

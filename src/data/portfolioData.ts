@@ -1,7 +1,7 @@
 // SIMPLIFIED PORTFOLIO DATA - Keep it clean and professional
 export const portfolioData = {
   personal: {
-    name: "Anurag Jaisswal",
+    name: "Anurag Jayaswal",
     title: "AI/ML Developer & Software Engineer",
     location: "Gwalior, Madhya Pradesh",
     email: "anurag1.230101034@iiitbh.ac.in",
@@ -48,9 +48,9 @@ and solving complex problems.`,
   ],
   
   skills: {
-    languages: ["Python", "Java", "C++", "JavaScript", "SQL"],
+    languages: ["Python", "Java", "C++", "JavaScript", "TypeScript", "SQL"],
     aiml: ["TensorFlow", "PyTorch", "LangChain", "Scikit-learn", "OpenCV"],
-    tools: ["Git", "Docker", "VS Code", "Jupyter", "Google Colab"]
+    tools: ["Git", "Docker", "VS Code", "Jupyter", "AWS", "React", "Next.js", "Node.js"]
   },
 
   education: [

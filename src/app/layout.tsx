@@ -31,6 +31,7 @@ const sourceCodePro = Source_Code_Pro({
 export const metadata: Metadata = {
   title: 'Anurag Jayaswal - AI/ML Developer | IIIT Bhagalpur | Available for SDE Roles',
   description: 'Professional AI/ML Developer & Computer Science student seeking SDE opportunities. Expert in Python, LLM systems, competitive programming (LeetCode 1500+, Codeforces Specialist). Ready to contribute to innovative tech teams.',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
   keywords: [
     'Anurag Jayaswal', 'AI Developer', 'ML Engineer', 'Software Engineer', 
     'IIIT Bhagalpur', 'Competitive Programming', 'LeetCode Expert', 'Codeforces Specialist',

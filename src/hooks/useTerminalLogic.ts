@@ -6,9 +6,10 @@ import { commands } from '@/data/commands'
 import { formatOutput } from '@/utils/formatters'
 
 export interface HistoryEntry {
-  type: 'command' | 'output' | 'error'
+  type: 'command' | 'output' | 'error' | 'component'
   content: string
   timestamp: Date
+  component?: 'skills' | 'projects'
 }
 
 export function useTerminalLogic() {
@@ -16,11 +17,39 @@ export function useTerminalLogic() {
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const [currentInput, setCurrentInput] = useState('')
 
   const systemInfo = {
     os: 'Portfolio Terminal v1.0',
     version: '1.0.0'
   }
+
+  // Real-time suggestions as user types
+  const updateSuggestions = useCallback((input: string) => {
+    setCurrentInput(input)
+    
+    if (input.length === 0) {
+      setShowSuggestions(false)
+      setSuggestions([])
+      return
+    }
+
+    const availableCommands = commands.map(cmd => cmd.name)
+    const aliases = commands.flatMap(cmd => cmd.aliases || [])
+    const allCommands = [...availableCommands, ...aliases]
+    
+    const matchingCommands = allCommands
+      .filter(cmd => cmd.toLowerCase().startsWith(input.toLowerCase()))
+      .slice(0, 6) // Limit to 6 suggestions
+    
+    if (matchingCommands.length > 0 && input.length > 0) {
+      setSuggestions(matchingCommands)
+      setShowSuggestions(true)
+    } else {
+      setShowSuggestions(false)
+      setSuggestions([])
+    }
+  }, [])
 
   const addToHistory = useCallback((entry: Omit<HistoryEntry, 'timestamp'>) => {
     setHistory(prev => [...prev, { ...entry, timestamp: new Date() }])
@@ -97,15 +126,17 @@ export function useTerminalLogic() {
 
         case 'projects':
           addToHistory({
-            type: 'output',
-            content: formatOutput.projects()
+            type: 'component',
+            content: 'Interactive Projects Showcase',
+            component: 'projects'
           })
           break
 
         case 'skills':
           addToHistory({
-            type: 'output',
-            content: formatOutput.skills()
+            type: 'component',
+            content: 'Interactive Skills Display',
+            component: 'skills'
           })
           break
 
@@ -164,6 +195,8 @@ export function useTerminalLogic() {
     systemInfo,
     executeCommand,
     showSuggestions,
-    suggestions
+    suggestions,
+    updateSuggestions,
+    currentInput
   }
 }
