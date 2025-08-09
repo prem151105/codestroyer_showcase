@@ -1,10 +1,31 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono } from 'next/font/google'
+import { JetBrains_Mono, Inter, Source_Code_Pro } from 'next/font/google'
 import './globals.css'
 
+// Advanced terminal font with ligatures and better readability
 const jetbrainsMono = JetBrains_Mono({ 
   subsets: ['latin'],
-  variable: '--font-mono'
+  variable: '--font-mono',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  preload: true
+})
+
+// Clean modern font for UI elements
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  preload: true
+})
+
+// Alternative mono font
+const sourceCodePro = Source_Code_Pro({
+  subsets: ['latin'],
+  variable: '--font-mono-alt',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap'
 })
 
 export const metadata: Metadata = {
@@ -70,7 +91,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${jetbrainsMono.variable} font-mono antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className={`${jetbrainsMono.variable} ${inter.variable} ${sourceCodePro.variable} font-mono antialiased`}>
         {children}
       </body>
     </html>

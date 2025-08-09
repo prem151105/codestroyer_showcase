@@ -24,84 +24,33 @@ const getProjectImpact = (projectName: string): string => {
 
 export const formatOutput = {
   help: () => {
-    const output = `
-┌─────────────────────────────────────────────────────────────────┐
-│            🚀 ANURAG'S PROFESSIONAL PORTFOLIO GUIDE            │
-└─────────────────────────────────────────────────────────────────┘
+    const output = `Available commands:
 
-${formatWithColor('👋 WELCOME! I\'m actively seeking SDE & AI/ML opportunities', colors.success)}
+  ${formatWithColor('about', colors.primary)}      Learn about me
+  ${formatWithColor('experience', colors.primary)} View my work experience  
+  ${formatWithColor('projects', colors.primary)}   Explore my projects
+  ${formatWithColor('skills', colors.primary)}     View my technical skills
+  ${formatWithColor('education', colors.primary)}  Check my education
+  ${formatWithColor('contact', colors.primary)}    Get my contact info
+  ${formatWithColor('resume', colors.primary)}     View/download my resume
+  ${formatWithColor('clear', colors.primary)}      Clear the screen
 
-${formatWithColor('🌟 ESSENTIAL COMMANDS (Start Here):', colors.secondary)}
-  ${formatWithColor('about'.padEnd(12), colors.primary)} 👨‍💻 Who I am, my mission & current availability
-  ${formatWithColor('resume'.padEnd(12), colors.primary)} 📄 Download PDF resume & view career highlights
-  ${formatWithColor('contact'.padEnd(12), colors.primary)} 📧 Direct contact info, LinkedIn, GitHub profiles
-
-${formatWithColor('💼 PROFESSIONAL DEEP-DIVE:', colors.secondary)}
-  ${formatWithColor('experience'.padEnd(12), colors.primary)} 🏢 AI/ML Developer role at Contentkosh + impact metrics
-  ${formatWithColor('projects'.padEnd(12), colors.primary)} 🛠️  Technical projects with live demos & GitHub links
-  ${formatWithColor('skills'.padEnd(12), colors.primary)} ⚡ Programming expertise, AI/ML stack, tools
-  ${formatWithColor('education'.padEnd(12), colors.primary)} 🎓 IIIT Bhagalpur, academic achievements, CGPA
-
-${formatWithColor('⚡ UTILITY COMMANDS:', colors.secondary)}
-  ${formatWithColor('help'.padEnd(12), colors.primary)} ❓ Show this comprehensive guide
-  ${formatWithColor('clear'.padEnd(12), colors.primary)} 🧹 Clear terminal screen for fresh start
-
-${formatWithColor('🎯 NAVIGATION TIPS:', colors.accent)}
-• ${formatWithColor('↑/↓ arrows', colors.primary)} - Browse your command history
-• ${formatWithColor('Tab key', colors.primary)} - Auto-complete commands (try typing "ab" + Tab)
-• ${formatWithColor('Ctrl+L', colors.primary)} - Quick screen clear shortcut
-• ${formatWithColor('Mobile users', colors.primary)} - Use the command buttons above for easy navigation
-
-
-
-${formatWithColor('💡 RECOMMENDED JOURNEY FOR RECRUITERS:', colors.success)}
-1️⃣ ${formatWithColor('about', colors.primary)} → Get to know me and my current goals
-2️⃣ ${formatWithColor('experience', colors.primary)} → See my professional AI/ML work & impact
-3️⃣ ${formatWithColor('projects', colors.primary)} → Explore technical projects with real metrics
-4️⃣ ${formatWithColor('skills', colors.primary)} → Review my technical expertise & achievements
-5️⃣ ${formatWithColor('resume', colors.primary)} → Download PDF or connect directly
-6️⃣ ${formatWithColor('contact', colors.primary)} → Let's discuss opportunities!
-
-${formatWithColor('🚀 STATUS:', colors.accent)} Ready to contribute immediately • Open to relocate • Visa not required
-`
+Type any command to get started!`
     return output
   },
 
   about: () => {
-    return `
-┌─────────────────────────────────────────────────────────────────┐
-│                         👨‍💻 ABOUT ANURAG                          │
-└─────────────────────────────────────────────────────────────────┘
+    return `${formatWithColor('👨‍💻 About Anurag Jayaswal', colors.secondary)}
 
-${formatWithColor('PERSONAL INFO:', colors.secondary)}
-📝 ${formatWithColor('Name:', colors.primary).padEnd(20)}        ${portfolioData.personal.name}
-🎯 ${formatWithColor('Role:', colors.primary).padEnd(20)}        ${portfolioData.personal.title}
-📍 ${formatWithColor('Location:', colors.primary).padEnd(20)}    ${portfolioData.personal.location}
-📧 ${formatWithColor('Email:', colors.primary).padEnd(20)}       ${portfolioData.personal.email}
-📱 ${formatWithColor('Phone:', colors.primary).padEnd(20)}       ${portfolioData.personal.phone}
+AI/ML Developer & Computer Science Student
+📍 Gwalior, MP | 🎓 IIIT Bhagalpur (CGPA: 7.71)
 
-${formatWithColor('WHO AM I?', colors.secondary)}
-${portfolioData.about}
+${formatWithColor('Quick Stats:', colors.accent)}
+🏆 LeetCode Expert (1500+ rating, 250+ problems)
+⭐ Codeforces Specialist (1468 max rating)
+🚀 AI Agent Developer at Contentkosh
 
-${formatWithColor('🎯 CURRENT MISSION:', colors.secondary)}
-• 🤖 Building cutting-edge AI/ML systems & multi-agent applications
-• 💻 Mastering competitive programming (LeetCode 1500+, CF Specialist)
-• 🔬 R&D in Natural Language Processing and LLM optimization
-• 🌟 Contributing to open source & helping fellow developers
-
-${formatWithColor('📊 QUICK STATS:', colors.accent)}
-🏆 ${formatWithColor('LeetCode:', colors.primary)} 250+ problems solved, 1500+ rating
-⭐ ${formatWithColor('Codeforces:', colors.primary)} Specialist rank, 1468 max rating  
-🎯 ${formatWithColor('Academic:', colors.primary)} 7.71 CGPA at IIIT Bhagalpur
-🚀 ${formatWithColor('Experience:', colors.primary)} AI Agent Developer at Contentkosh
-
-${formatWithColor('🎯 WHAT\'S NEXT?', colors.accent)}
-→ ${formatWithColor('experience', colors.primary)} - Deep dive into my professional journey
-→ ${formatWithColor('projects', colors.primary)} - Explore my technical creations with live demos
-→ ${formatWithColor('skills', colors.primary)} - Check out my technical expertise & proficiency
-→ ${formatWithColor('contact', colors.primary)} - Let's connect and collaborate!
-
-${formatWithColor('🟢 AVAILABILITY:', colors.success)} Actively seeking SDE & AI/ML opportunities! Ready to make an impact! 🚀
+${formatWithColor('🟢 Currently seeking SDE & AI/ML opportunities!', colors.success)}
 `
   },
 
@@ -217,34 +166,19 @@ ${formatWithColor('💡 Interested in collaboration?', colors.accent)} Let's con
   },
 
   contact: () => {
-    return `
-┌─────────────────────────────────────────┐
-│            CONTACT INFORMATION          │
-└─────────────────────────────────────────┘
+    return `${formatWithColor('📧 Contact Information', colors.secondary)}
 
-${formatWithColor('📧 Email:', colors.secondary)}      ${portfolioData.personal.email}
-${formatWithColor('📱 Phone:', colors.secondary)}      ${portfolioData.personal.phone}
-${formatWithColor('📍 Location:', colors.secondary)}   ${portfolioData.personal.location}
+${formatWithColor('Email:', colors.primary)} ${portfolioData.personal.email}
+${formatWithColor('Phone:', colors.primary)} ${portfolioData.personal.phone}
+${formatWithColor('Location:', colors.primary)} ${portfolioData.personal.location}
 
-${formatWithColor('🌐 CONNECT WITH ME:', colors.secondary)}
-${formatWithColor('LinkedIn:', colors.primary)}      https://linkedin.com/in/anurag-jayaswal
-${formatWithColor('GitHub:', colors.primary)}        https://github.com/anuragj7879
-${formatWithColor('LeetCode:', colors.primary)}      https://leetcode.com/anuragj7879
-${formatWithColor('Codeforces:', colors.primary)}    https://codeforces.com/profile/anuragj7879
+${formatWithColor('🌐 Connect with me:', colors.accent)}
+LinkedIn: https://linkedin.com/in/anurag-jayaswal
+GitHub: https://github.com/anuragj7879
+LeetCode: https://leetcode.com/anuragj7879
+Codeforces: https://codeforces.com/profile/anuragj7879
 
-${formatWithColor('📝 MESSAGE:', colors.accent)}
-I'm always open to discussing new opportunities, 
-collaborating on interesting projects, or just 
-having a chat about technology and AI/ML!
-
-Feel free to reach out through any of the above channels.
-I typically respond within 24 hours.
-
-${formatWithColor('🚀 CURRENTLY LOOKING FOR:', colors.secondary)}
-• Full-time Software Engineer positions
-• AI/ML Engineer roles  
-• Research internships
-• Open source collaborations
+${formatWithColor('🚀 Open to SDE & AI/ML opportunities!', colors.success)}
 `
   },
 

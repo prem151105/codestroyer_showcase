@@ -12,10 +12,26 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden; /* Hide all scrollbars */
   background: #0d1117;
   color: #e6edf3;
-  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  font-family: var(--font-mono), 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  font-variant-ligatures: contextual;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Hide scrollbars globally */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;     /* Firefox */
 }
 
 .terminal-container {
@@ -26,18 +42,36 @@ body {
   border: 1px solid #30363d;
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  /* Font settings */
-  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  min-height: 100vh;
+  /* Advanced Font settings */
+  font-family: var(--font-mono), 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  height: 100vh; /* Fixed height, no overflow */
+  overflow: hidden;
+  /* Enhanced rendering */
+  font-feature-settings: 'liga' 1, 'calt' 1, 'ss01' 1, 'ss02' 1;
+  font-variant-ligatures: contextual;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .terminal-content {
   /* Main text color - soft white/gray */
   color: #e6edf3;
   padding: 20px;
-  min-height: 400px;
+  height: 100vh; /* Full height */
+  overflow: hidden; /* No scrolling */
+  font-family: var(--font-mono), 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Command prompt styling */
@@ -72,10 +106,13 @@ body {
   border: none;
   outline: none;
   color: #e6edf3;
-  font-family: inherit;
-  font-size: inherit;
+  font-family: var(--font-mono), 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.025em;
   caret-color: #58a6ff;
   width: 100%;
+  line-height: 1.6;
 }
 
 /* Command output styling */
@@ -365,6 +402,37 @@ a {
 :root {
   --border-radius: 8px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Advanced Font Classes */
+.font-mono-advanced {
+  font-family: var(--font-mono), 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-feature-settings: 'liga' 1, 'calt' 1, 'ss01' 1, 'ss02' 1;
+  font-variant-ligatures: contextual;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.font-sans-advanced {
+  font-family: var(--font-sans), 'Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Enhanced Terminal Typography */
+.terminal-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+}
+
+.terminal-heading {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
 }
 
 /* Professional Animation System */
