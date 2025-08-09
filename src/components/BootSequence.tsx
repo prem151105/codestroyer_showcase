@@ -1,86 +1,103 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface BootSequenceProps {
   onComplete: () => void
 }
 
-const bootMessages = [
-  'Initializing Anurag Terminal OS v2.0.1...',
-  'Loading AI/ML modules...',
-  'Mounting /dev/skills...',
-  'Starting portfolio services...',
-  'Loading project database...',
-  'Initializing GitHub integration...',
-  'Setting up LeetCode connection...',
-  'Configuring Codeforces API...',
-  'Loading achievement data...',
-  'Starting terminal interface...',
-  'System ready.',
-  '',
-  'Welcome to Anurag Jayaswal\'s Interactive Portfolio'
-]
-
 export default function BootSequence({ onComplete }: BootSequenceProps) {
-  const [currentLine, setCurrentLine] = useState(0)
-  const [displayedMessages, setDisplayedMessages] = useState<string[]>([])
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+
+  const bootSteps = [
+    "Loading portfolio system...",
+    "Connecting to database...",
+    "Terminal ready!"
+  ]
 
   useEffect(() => {
-    if (currentLine < bootMessages.length) {
-      const timer = setTimeout(() => {
-        setDisplayedMessages(prev => [...prev, bootMessages[currentLine]])
-        setCurrentLine(prev => prev + 1)
-      }, 200)
-
-      return () => clearTimeout(timer)
+    if (currentStep < bootSteps.length) {
+      const timeout = setTimeout(() => {
+        setCurrentStep((prev: number) => prev + 1)
+      }, 600) // Faster progression
+      return () => clearTimeout(timeout)
     } else {
-      const completeTimer = setTimeout(() => {
-        onComplete()
-      }, 1000)
-
-      return () => clearTimeout(completeTimer)
+      const finalTimeout = setTimeout(() => {
+        setIsComplete(true)
+        setTimeout(onComplete, 300)
+      }, 400) // Shorter final delay
+      return () => clearTimeout(finalTimeout)
     }
-  }, [currentLine, onComplete])
+  }, [currentStep, onComplete])
+
+  if (isComplete) return null
 
   return (
-    <div className="min-h-screen bg-black text-terminal-green font-mono p-8 flex flex-col">
+    <div className="min-h-screen bg-black text-green-400 font-mono flex flex-col justify-center items-center p-6">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        className="text-center max-w-2xl"
       >
-        {displayedMessages.map((message, index) => (
+        {/* Terminal Header */}
+        <div className="border border-green-400 rounded-lg p-6 mb-8">
+          <div className="text-sm mb-4">
+            <span className="text-green-300">●</span> ANURAG TERMINAL SYSTEM
+          </div>
+          
+          <pre className="text-xs text-green-300 mb-4">
+{`┌─────────────────────────────────────┐
+│     PORTFOLIO BOOT SEQUENCE         │
+└─────────────────────────────────────┘`}
+          </pre>
+        </div>
+
+        {/* Boot Messages */}
+        <div className="space-y-3 text-left">
+          <AnimatePresence>
+            {bootSteps.slice(0, currentStep + 1).map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center space-x-2"
+              >
+                <span className="text-green-500">
+                  {index === currentStep ? '▶' : '✓'}
+                </span>
+                <span className={index === currentStep ? 'text-green-300' : 'text-green-500'}>
+                  {step}
+                </span>
+                {index === currentStep && (
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="text-green-400"
+                  >
+                    _
+                  </motion.span>
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {currentStep >= bootSteps.length && (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mb-1"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 text-center"
           >
-            {message && (
-              <>
-                <span className="text-terminal-cyan">[</span>
-                <span className="text-terminal-green">OK</span>
-                <span className="text-terminal-cyan">]</span>
-                <span className="ml-2">{message}</span>
-              </>
-            )}
-            {!message && <br />}
+            <div className="text-green-300 text-lg">🚀 Welcome to Anurag's Portfolio!</div>
+            <div className="text-green-500 text-sm mt-2">
+              Initializing interactive terminal experience...
+            </div>
           </motion.div>
-        ))}
+        )}
       </motion.div>
-      
-      {currentLine < bootMessages.length && (
-        <motion.div
-          animate={{ opacity: [1, 0] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="text-terminal-green text-xl mt-4"
-        >
-          _
-        </motion.div>
-      )}
     </div>
   )
 }

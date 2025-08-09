@@ -5,15 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTerminalLogic } from '@/hooks/useTerminalLogic'
 import { useTheme } from '@/hooks/useTheme'
 import CommandSuggestions from './CommandSuggestions'
-import GameModal from './GameModal'
 
-interface TerminalProps {
-  onMatrixToggle: () => void
-}
-
-export default function Terminal({ onMatrixToggle }: TerminalProps) {
+export default function Terminal() {
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [historyIndex, setHistoryIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const { theme, themeName, changeTheme, getThemeClasses } = useTheme()
@@ -21,14 +17,10 @@ export default function Terminal({ onMatrixToggle }: TerminalProps) {
   const {
     history,
     commandHistory,
-    currentPath,
-    currentUser,
     systemInfo,
     executeCommand,
     showSuggestions,
-    suggestions,
-    gameState,
-    closeGame
+    suggestions
   } = useTerminalLogic()
 
   // Auto-focus input
@@ -52,40 +44,58 @@ export default function Terminal({ onMatrixToggle }: TerminalProps) {
 
     setIsTyping(true)
     
-    // Special commands
-    if (input.trim() === 'matrix') {
-      onMatrixToggle()
-    } else if (input.trim().startsWith('theme ')) {
+    // Handle theme changes
+    if (input.trim().startsWith('theme ')) {
       const newTheme = input.trim().split(' ')[1]
       changeTheme(newTheme)
     }
     
     await executeCommand(input.trim())
     setInput('')
+    setHistoryIndex(-1)
     setIsTyping(false)
-  }, [input, executeCommand, onMatrixToggle, changeTheme])
+  }, [input, executeCommand, changeTheme])
 
   // Handle key events
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault()
-      // Implement command history navigation
+      if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+        const newIndex = historyIndex + 1
+        const historyCommand = commandHistory[commandHistory.length - 1 - newIndex]
+        setInput(historyCommand)
+        setHistoryIndex(newIndex)
+      }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
-      // Implement command history navigation
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1
+        const historyCommand = commandHistory[commandHistory.length - 1 - newIndex]
+        setInput(historyCommand)
+        setHistoryIndex(newIndex)
+      } else if (historyIndex === 0) {
+        setInput('')
+        setHistoryIndex(-1)
+      }
     } else if (e.key === 'Tab') {
       e.preventDefault()
-      // Implement tab completion
+      // Simple tab completion for commands
+      const availableCommands = ['help', 'about', 'experience', 'projects', 'skills', 'education', 'contact', 'resume', 'clear']
+      const matches = availableCommands.filter(cmd => cmd.startsWith(input.toLowerCase()))
+      if (matches.length === 1) {
+        setInput(matches[0])
+      }
     } else if (e.ctrlKey && e.key === 'l') {
       e.preventDefault()
       executeCommand('clear')
     } else if (e.ctrlKey && e.key === 'c') {
       e.preventDefault()
       setInput('')
+      setHistoryIndex(-1)
     }
-  }, [executeCommand])
+  }, [executeCommand, commandHistory, historyIndex, input])
 
-  const prompt = `${currentUser}@anurag-portfolio:${currentPath}$ `
+  const prompt = `anurag@portfolio:~$ `
 
   return (
     <div className={`min-h-screen font-mono text-sm ${getThemeClasses()} transition-all duration-300`}>
@@ -95,39 +105,101 @@ export default function Terminal({ onMatrixToggle }: TerminalProps) {
         style={{ height: '100vh' }}
         onClick={() => inputRef.current?.focus()}
       >
-        {/* ASCII Banner */}
+        {/* Professional Welcome Banner */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.2 }}
           className="mb-8"
         >
-          <pre className="ascii-art text-center glow-text text-xs md:text-sm">
-{` █████╗ ███╗   ██╗██╗   ██╗██████╗  █████╗  ██████╗ 
-██╔══██╗████╗  ██║██║   ██║██╔══██╗██╔══██╗██╔════╝ 
-███████║██╔██╗ ██║██║   ██║██████╔╝███████║██║  ███╗
-██╔══██║██║╚██╗██║██║   ██║██╔══██╗██╔══██║██║   ██║
-██║  ██║██║ ╚████║╚██████╔╝██║  ██║██║  ██║╚██████╔╝
-╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝`}
-          </pre>
-          <div className="text-center mt-4">
-            <div className="text-lg">Welcome to Anurag Jayaswal's Interactive Portfolio</div>
-            <div className="text-sm opacity-80">AI/ML Developer | Software Engineer | Competitive Programmer</div>
-            <div className="text-xs opacity-60 mt-2">Type 'help' to see available commands</div>
-            <div className="text-xs opacity-60">Current theme: <span className="text-terminal-cyan">{themeName}</span></div>
+          <div className="text-center border border-current rounded-lg p-6 mb-6 bg-opacity-5 bg-white backdrop-blur-sm">
+            <pre className="ascii-art glow-text text-xs md:text-sm mb-4 select-none">
+{`┌──────────────────────────────────────────────────────────┐
+│  ▄▀█ █▄░█ █░█ █▀█ ▄▀█ █▀▀   ░░█ ▄▀█ █▄█ ▄▀█ █▀ █░█░█ ▄▀█ █░░  │
+│  █▀█ █░▀█ █▄█ █▀▄ █▀█ █▄█   █▄█ █▀█ ░█░ █▀█ ▄█ ▀▄▀▄▀ █▀█ █▄▄  │
+└──────────────────────────────────────────────────────────┘`}
+            </pre>
+            <div className="text-lg font-bold mb-2">🚀 AI/ML Developer | 💻 Competitive Programmer | 🎓 IIIT Bhagalpur</div>
+            <div className="text-sm opacity-80 mb-3">Welcome to my interactive terminal portfolio!</div>
+            
+            {/* Quick Stats */}
+            <div className="flex justify-center items-center space-x-6 text-xs opacity-70 mb-4">
+              <span>📊 250+ LeetCode</span>
+              <span>⭐ 1500+ Rating</span>
+              <span>🏆 Specialist CF</span>
+              <span>📈 7.71 CGPA</span>
+            </div>
+
+            <div className="text-xs opacity-60 mb-2">
+              <span className="text-terminal-cyan font-semibold">Quick start:</span> help | about | projects | experience | skills | contact
+            </div>
+            <div className="text-xs opacity-50">
+              Theme: <span className="text-terminal-cyan">{themeName}</span> | 
+              Press <span className="text-terminal-cyan">Tab</span> for autocomplete
+            </div>
+          </div>
+
+          {/* Enhanced Mobile Command Buttons */}
+          <div className="md:hidden mobile-commands">
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {['help', 'about', 'projects', 'experience', 'skills', 'contact'].map((cmd) => (
+                <button
+                  key={cmd}
+                  className="command-button text-center"
+                  onClick={() => {
+                    setInput(cmd)
+                    handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+                  }}
+                >
+                  {cmd}
+                </button>
+              ))}
+            </div>
+            
+            {/* Additional Commands Row */}
+            <div className="grid grid-cols-4 gap-2 mb-3">
+              {['education', 'resume', 'clear'].map((cmd) => (
+                <button
+                  key={cmd}
+                  className="command-button text-center"
+                  onClick={() => {
+                    setInput(cmd)
+                    handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+                  }}
+                >
+                  {cmd}
+                </button>
+              ))}
+              
+              {/* Theme Selector Dropdown */}
+              <select
+                className="command-button text-center bg-transparent"
+                value={currentTheme}
+                onChange={(e) => changeTheme(e.target.value)}
+              >
+                <option value="classic" className="bg-black">Classic</option>
+                <option value="modern" className="bg-black">Modern</option>
+                <option value="matrix" className="bg-black">Matrix</option>
+              </select>
+            </div>
+            
+            <div className="text-center text-xs opacity-60">
+              💡 Tap commands above, use dropdown for themes, or type manually below
+            </div>
           </div>
         </motion.div>
 
-        {/* System Info */}
+        {/* Professional System Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mb-6 text-xs opacity-75"
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mb-6 text-xs opacity-75 border-l-2 border-current pl-4"
         >
-          <div>Last login: {new Date().toLocaleString()}</div>
-          <div>System: {systemInfo.os} | Terminal: v{systemInfo.version}</div>
-          <div>Location: Gwalior, Madhya Pradesh | Status: Available for opportunities</div>
+          <div className="text-green-400 mb-1">✓ System initialized successfully</div>
+          <div>📅 Session: {new Date().toLocaleString()} | 🖥️ Terminal: v{systemInfo.version}</div>
+          <div>📍 Location: Gwalior, MP | 🟢 Status: <span className="text-green-400 font-semibold">Available for opportunities</span></div>
+          <div className="text-yellow-400">💼 Seeking: Full-time SDE roles & AI/ML positions</div>
         </motion.div>
 
         {/* Command History */}
@@ -201,28 +273,26 @@ export default function Terminal({ onMatrixToggle }: TerminalProps) {
         )}
       </div>
 
-      {/* Game Modal */}
-      <AnimatePresence>
-        {gameState.active && (
-          <GameModal
-            gameType={gameState.type!}
-            onClose={closeGame}
-            theme={theme}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Status Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black bg-opacity-90 border-t border-current p-2 text-xs">
-        <div className="flex justify-between items-center">
-          <div className="flex space-x-4">
-            <span>Theme: {themeName}</span>
-            <span>Path: {currentPath}</span>
-            <span>User: {currentUser}</span>
+      {/* Enhanced Professional Status Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black bg-opacity-95 border-t border-current p-2 text-xs backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-1 md:space-y-0">
+          <div className="flex flex-wrap space-x-4">
+            <span className="flex items-center">
+              🎨 Theme: <span className="text-terminal-cyan ml-1">{themeName}</span>
+            </span>
+            <span className="flex items-center">
+              📝 Commands: <span className="text-terminal-cyan ml-1">{commandHistory.length}</span>
+            </span>
+            <span className="flex items-center hidden sm:flex">
+              🚀 <span className="text-green-400 ml-1">Ready</span>
+            </span>
           </div>
-          <div className="flex space-x-4">
-            <span>Commands: {commandHistory.length}</span>
-            <span>{new Date().toLocaleTimeString()}</span>
+          <div className="flex flex-wrap space-x-4">
+            <span className="hidden md:flex">💡 Type 'help' for available commands</span>
+            <span className="flex items-center">
+              ⏰ {new Date().toLocaleTimeString()}
+            </span>
+            <span className="text-green-400 text-xs">●</span>
           </div>
         </div>
       </div>

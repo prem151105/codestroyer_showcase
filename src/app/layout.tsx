@@ -8,39 +8,47 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Anurag Jayaswal - Terminal Portfolio',
-  description: 'Interactive terminal-style portfolio showcasing AI/ML expertise and software development skills',
-  keywords: 'AI, Machine Learning, Software Developer, Terminal, Portfolio, React, Next.js, Anurag Jayaswal, IIIT Bhagalpur, Competitive Programming',
-  authors: [{ name: 'Anurag Jayaswal' }],
+  title: 'Anurag Jayaswal - AI/ML Developer | IIIT Bhagalpur | Available for SDE Roles',
+  description: 'Professional AI/ML Developer & Computer Science student seeking SDE opportunities. Expert in Python, LLM systems, competitive programming (LeetCode 1500+, Codeforces Specialist). Ready to contribute to innovative tech teams.',
+  keywords: [
+    'Anurag Jayaswal', 'AI Developer', 'ML Engineer', 'Software Engineer', 
+    'IIIT Bhagalpur', 'Competitive Programming', 'LeetCode Expert', 'Codeforces Specialist',
+    'Python Developer', 'TensorFlow', 'PyTorch', 'LangChain', 'OpenAI', 'NLP',
+    'Multi-Agent Systems', 'SDE Jobs', 'AI Jobs', 'Fresh Graduate', 'Available for Hire',
+    'Terminal Portfolio', 'Interactive Resume', 'Gwalior MP', 'India'
+  ].join(', '),
+  authors: [{ name: 'Anurag Jayaswal', url: 'https://linkedin.com/in/anurag-jayaswal' }],
   creator: 'Anurag Jayaswal',
   publisher: 'Anurag Jayaswal',
-  metadataBase: new URL('https://anurag-terminal-portfolio.vercel.app'),
+  category: 'Technology',
+  metadataBase: new URL('https://anurag-portfolio.vercel.app'),
   icons: {
     icon: '/terminal-icon.svg',
     shortcut: '/terminal-icon.svg',
     apple: '/terminal-icon.svg',
   },
   openGraph: {
-    type: 'website',
+    type: 'profile',
     locale: 'en_US',
-    url: 'https://anurag-terminal-portfolio.vercel.app',
-    title: 'Anurag Jayaswal - Terminal Portfolio',
-    description: 'Interactive terminal-style portfolio showcasing AI/ML expertise and competitive programming achievements',
-    siteName: 'Anurag Jayaswal Portfolio',
+    url: 'https://anurag-portfolio.vercel.app',
+    title: 'Anurag Jayaswal - AI/ML Developer | Available for SDE Roles',
+    description: '🚀 Professional AI/ML Developer from IIIT Bhagalpur seeking SDE opportunities. Expert in Python, LLM systems, competitive programming (LeetCode 1500+). Ready to innovate with your team!',
+    siteName: 'Anurag Jayaswal - Professional Portfolio',
     images: [
       {
         url: '/terminal-icon.svg',
         width: 1200,
         height: 630,
-        alt: 'Anurag Jayaswal Terminal Portfolio',
+        alt: 'Anurag Jayaswal - AI/ML Developer Portfolio | Interactive Terminal Experience',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anurag Jayaswal - Terminal Portfolio',
-    description: 'Interactive terminal-style portfolio showcasing AI/ML expertise',
+    title: 'Anurag Jayaswal - AI/ML Developer | Seeking SDE Roles',
+    description: '🚀 Interactive portfolio showcasing AI/ML expertise, competitive programming achievements, and real-world project impact. Currently available for opportunities!',
     images: ['/terminal-icon.svg'],
+    creator: '@anuragj7879',
   },
   robots: {
     index: true,

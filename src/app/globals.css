@@ -58,38 +58,48 @@ a {
   overflow-x: auto;
 }
 
-/* Theme classes */
-.theme-matrix {
-  background: #000000;
-  color: #008000;
-}
-
-.theme-cyberpunk {
-  background: linear-gradient(45deg, #0a0a0a 0%, #1a0a1a 100%);
-  color: #ff0080;
-}
-
-.theme-amber {
-  background: #000000;
-  color: #ffb000;
-}
-
+/* Professional Theme System - Clean & Modern */
 .theme-classic {
-  background: #000000;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
   color: #00ff00;
+  --primary: #00ff00;
+  --secondary: #00cc00;
+  --accent: #ffb000;
+  --terminal-green: #00ff00;
+  --terminal-cyan: #00ffff;
+  --terminal-amber: #ffb000;
 }
 
 .theme-modern {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #0f4c75;
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+  color: #ffffff;
+  --primary: #ffffff;
+  --secondary: #64ffda;
+  --accent: #bb86fc;
+  --terminal-green: #64ffda;
+  --terminal-cyan: #64ffda;
+  --terminal-amber: #bb86fc;
 }
 
-.theme-iiit {
-  background: linear-gradient(135deg, #001a2e 0%, #003a5c 100%);
-  color: #00b4db;
+.theme-matrix {
+  background: radial-gradient(ellipse at center, #001100 0%, #000000 70%);
+  color: #00ff00;
+  --primary: #00ff00;
+  --secondary: #008000;
+  --accent: #00cc00;
+  --terminal-green: #00ff00;
+  --terminal-cyan: #00ff00;
+  --terminal-amber: #00cc00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
 }
 
-/* Animation classes */
+/* Add custom CSS variables for consistent theming */
+:root {
+  --border-radius: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Professional Animation System */
 .typing-animation {
   animation: type 2s steps(40, end);
   overflow: hidden;
@@ -106,26 +116,202 @@ a {
   animation: glow 2s ease-in-out infinite alternate;
 }
 
-.matrix-rain {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* Mobile responsive */
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Keyframe Animations */
+@keyframes type {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1 }
+  51%, 100% { opacity: 0 }
+}
+
+@keyframes glow {
+  from { 
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+  to { 
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Performance optimizations */
+.terminal-container {
+  will-change: scroll-position;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+.command-history {
+  backface-visibility: hidden; /* Smooth animations */
+}
+
+/* Enhanced Mobile Optimization */
 @media (max-width: 768px) {
   .ascii-art {
     font-size: 0.6rem;
     transform: scale(0.8);
-    transform-origin: left top;
+    transform-origin: center top;
+    margin-bottom: 1rem;
   }
   
   .terminal-container {
-    padding: 10px;
+    padding: 16px 12px;
+  }
+
+  /* Prevent zoom on iOS Safari */
+  input {
+    font-size: 16px !important;
+    transform: translateZ(0); /* Hardware acceleration */
+  }
+  
+  /* Better font sizing for mobile readability */
+  body {
+    font-size: 14px;
+  }
+
+  /* Enhanced Touch-friendly Command Buttons */
+  .mobile-commands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+  }
+
+  .command-button {
+    background: rgba(100, 255, 218, 0.08);
+    border: 1px solid var(--terminal-cyan, #64ffda);
+    color: var(--terminal-cyan, #64ffda);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 75px;
+    min-height: 44px; /* Better touch target */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .command-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .command-button:hover::before {
+    left: 100%;
+  }
+
+  .command-button:hover,
+  .command-button:active {
+    background: rgba(100, 255, 218, 0.15);
+    border-color: var(--terminal-green, #00ff00);
+    color: var(--terminal-green, #00ff00);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);
+  }
+
+  .command-button:active {
+    transform: translateY(0);
+  }
+
+  /* Theme selector styling for mobile */
+  .command-button select {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .command-button select option {
+    background: #1a1a1a;
+    color: #64ffda;
+    padding: 4px;
+  }
+
+  /* Better text readability */
+  .terminal-line {
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  /* Improved scrollbar for mobile */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  /* Better spacing for mobile command grid */
+  .mobile-commands {
+    margin-bottom: 20px;
+  }
+
+  .mobile-commands .grid {
+    gap: 10px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .ascii-art {
+    font-size: 0.4rem;
+    transform: scale(0.6);
+  }
+  
+  .terminal-container {
+    padding: 8px;
+  }
+
+  .command-button {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .terminal-line {
+    font-size: 13px;
   }
 }
 
@@ -164,7 +350,14 @@ a {
   white-space: pre;
 }
 
-/* Snake game grid */
-.grid-cols-20 {
-  grid-template-columns: repeat(20, minmax(0, 1fr));
+/* Enhanced link styling for professional appearance */
+.terminal-line a {
+  color: var(--terminal-cyan, #64ffda);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.terminal-line a:hover {
+  color: var(--terminal-green, #00ff00);
+  text-shadow: 0 0 5px currentColor;
 }
