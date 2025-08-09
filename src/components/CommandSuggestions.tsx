@@ -41,11 +41,9 @@ const commandDetails: Record<string, CommandInfo> = {
 
 export default function CommandSuggestions({ suggestions, onSelect, currentInput }: CommandSuggestionsProps) {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [showDetails, setShowDetails] = useState(false)
 
   useEffect(() => {
     setSelectedIndex(0)
-    setShowDetails(false)
   }, [suggestions])
 
   useEffect(() => {
@@ -76,289 +74,251 @@ export default function CommandSuggestions({ suggestions, onSelect, currentInput
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [suggestions, selectedIndex, onSelect])
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'essential': return 'text-cyan-400 border-cyan-400/30 bg-cyan-400/5'
-      case 'professional': return 'text-orange-400 border-orange-400/30 bg-orange-400/5'
-      case 'utility': return 'text-green-400 border-green-400/30 bg-green-400/5'
-      case 'interactive': return 'text-purple-400 border-purple-400/30 bg-purple-400/5'
-      case 'system': return 'text-yellow-400 border-yellow-400/30 bg-yellow-400/5'
-      default: return 'text-gray-400 border-gray-400/30 bg-gray-400/5'
-    }
-  }
-
-  const getCategoryBadge = (category: string) => {
-    const colors = getCategoryColor(category)
-    return `inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${colors}`
-  }
-
   if (suggestions.length === 0) return null
 
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.9, rotateX: -15 }}
-        animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-        exit={{ opacity: 0, y: 20, scale: 0.9, rotateX: -15 }}
-        transition={{ duration: 0.3, ease: "easeOut", type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden"
-        style={{ minWidth: '320px', maxWidth: '95vw', perspective: '1000px' }}
+        initial={{ opacity: 0, scale: 0.8, y: -20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.8, y: -20 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="absolute top-full left-0 right-0 mt-6 z-50"
       >
-        {/* Spectacular Morphing Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/95 via-purple-900/30 to-black/95 backdrop-blur-2xl"></div>
-        
-        {/* Dynamic Border Effect */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-400 via-purple-400 via-pink-400 to-cyan-400 p-0.5 animate-pulse-slow">
-          <div className="rounded-3xl bg-black/90 backdrop-blur-xl h-full w-full"></div>
-        </div>
-        
-        {/* Floating Orb Effects */}
-        <div className="absolute top-2 right-4 w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full blur-xl opacity-30 animate-pulse"></div>
-        <div className="absolute bottom-2 left-4 w-8 h-8 bg-gradient-to-r from-pink-400 to-yellow-400 rounded-full blur-lg opacity-40 animate-bounce"></div>
-        
-        {/* Content Container */}
-        <div className="relative p-1 rounded-3xl">
-          {/* Spectacular Header */}
-          <div className="px-6 py-4 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-t-3xl"></div>
-            <div className="relative flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 360],
-                    scale: [1, 1.2, 1],
-                    filter: ["hue-rotate(0deg)", "hue-rotate(180deg)", "hue-rotate(360deg)"]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-2xl"
-                >
-                  ✨
-                </motion.div>
-                <div>
-                  <h3 className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    Smart Commands
-                  </h3>
-                  <p className="text-xs text-gray-400">AI-powered suggestions</p>
-                </div>
-              </div>
-              <motion.div 
-                className="px-3 py-1.5 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full border border-cyan-400/30"
+        {/* Flowing liquid suggestions */}
+        <div className="flex flex-wrap gap-3 justify-start">
+          {suggestions.slice(0, 8).map((suggestion, index) => {
+            const commandInfo = commandDetails[suggestion]
+            const isSelected = index === selectedIndex
+            
+            return (
+              <motion.div
+                key={suggestion}
+                initial={{ opacity: 0, scale: 0, rotate: -180, y: 50 }}
                 animate={{ 
-                  boxShadow: ["0 0 10px rgba(0,255,255,0.3)", "0 0 20px rgba(128,0,255,0.3)", "0 0 10px rgba(0,255,255,0.3)"]
+                  opacity: 1, 
+                  scale: isSelected ? 1.15 : 1, 
+                  rotate: 0, 
+                  y: 0,
+                  z: isSelected ? 20 : 0
                 }}
-                transition={{ duration: 2, repeat: Infinity }}
+                exit={{ opacity: 0, scale: 0, rotate: 180, y: -50 }}
+                transition={{ 
+                  delay: index * 0.05,
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15
+                }}
+                whileHover={{ 
+                  scale: 1.2, 
+                  rotate: [0, 5, -5, 0],
+                  transition: { rotate: { duration: 0.5 } }
+                }}
+                className="cursor-pointer group relative"
+                onClick={() => onSelect(suggestion)}
+                onMouseEnter={() => setSelectedIndex(index)}
               >
-                <span className="text-xs font-semibold text-cyan-300">
-                  {suggestions.length} found
-                </span>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Spectacular Suggestions */}
-          <div className="max-h-80 overflow-y-auto px-2">
-            {suggestions.slice(0, 8).map((suggestion, index) => {
-              const commandInfo = commandDetails[suggestion]
-              const isSelected = index === selectedIndex
-              
-              return (
+                {/* Liquid blob background */}
                 <motion.div
-                  key={suggestion}
-                  initial={{ opacity: 0, x: -30, rotateY: -15 }}
-                  animate={{ opacity: 1, x: 0, rotateY: 0 }}
-                  exit={{ opacity: 0, x: 30, rotateY: 15 }}
-                  transition={{ 
-                    delay: index * 0.03,
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30
-                  }}
-                  whileHover={{ 
-                    scale: 1.02, 
-                    rotateY: 5,
-                    z: 10,
-                    boxShadow: "0 8px 25px rgba(0,255,255,0.2)"
-                  }}
                   className={`
-                    group relative m-2 cursor-pointer transition-all duration-300 transform-gpu
+                    absolute inset-0 blur-xl transition-all duration-500
                     ${isSelected 
-                      ? 'scale-105' 
-                      : 'hover:scale-102'
+                      ? 'bg-gradient-to-br from-cyan-400/30 via-purple-400/30 to-pink-400/30' 
+                      : 'bg-gradient-to-br from-gray-600/20 via-gray-700/20 to-gray-600/20 group-hover:from-cyan-400/20 group-hover:via-purple-400/20 group-hover:to-pink-400/20'
                     }
                   `}
-                  onClick={() => onSelect(suggestion)}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                >
-                  {/* Dynamic Morphing Background */}
-                  <div className={`
-                    absolute inset-0 rounded-2xl transition-all duration-300
-                    ${isSelected
-                      ? 'bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 shadow-2xl shadow-cyan-500/20'
-                      : 'bg-gradient-to-r from-gray-800/20 via-gray-700/20 to-gray-800/20 hover:from-cyan-500/10 hover:via-purple-500/10 hover:to-pink-500/10'
-                    }
-                  `}></div>
-                  
-                  {/* Glowing Border */}
-                  {isSelected && (
-                    <motion.div 
-                      className="absolute inset-0 rounded-2xl border-2 border-cyan-400/50"
-                      animate={{ 
-                        borderColor: ["rgba(0,255,255,0.5)", "rgba(255,0,255,0.5)", "rgba(0,255,255,0.5)"],
-                        boxShadow: ["0 0 20px rgba(0,255,255,0.3)", "0 0 30px rgba(255,0,255,0.3)", "0 0 20px rgba(0,255,255,0.3)"]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    ></motion.div>
-                  )}
-                  
-                  {/* Content */}
-                  <div className="relative p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 flex-1">
-                        {/* Spectacular Icon */}
-                        <motion.div 
-                          className="text-2xl flex-shrink-0"
-                          animate={isSelected ? { 
-                            scale: [1, 1.3, 1],
-                            rotate: [0, 360],
-                            filter: ["hue-rotate(0deg)", "hue-rotate(180deg)", "hue-rotate(0deg)"]
-                          } : {}}
-                          transition={{ duration: 2, repeat: isSelected ? Infinity : 0 }}
-                        >
-                          {commandInfo?.icon || '✨'}
-                        </motion.div>
-                        
-                        <div className="flex-1 min-w-0">
-                          {/* Enhanced Command Name */}
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className={`font-mono font-bold text-lg transition-all duration-300 ${
-                              isSelected 
-                                ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' 
-                                : 'text-white group-hover:text-cyan-300'
-                            }`}>
-                              {currentInput && suggestion.startsWith(currentInput) ? (
-                                <>
-                                  <motion.span 
-                                    className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-1 py-0.5 rounded-lg font-black"
-                                    animate={{ 
-                                      boxShadow: ["0 0 10px rgba(255,255,0,0.5)", "0 0 20px rgba(255,165,0,0.5)", "0 0 10px rgba(255,255,0,0.5)"]
-                                    }}
-                                    transition={{ duration: 1.5, repeat: Infinity }}
-                                  >
-                                    {currentInput}
-                                  </motion.span>
-                                  <span className="ml-0.5">{suggestion.slice(currentInput.length)}</span>
-                                </>
-                              ) : (
-                                suggestion
-                              )}
-                            </span>
-                            
-                            {isSelected && (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0, rotateZ: -180 }}
-                                animate={{ opacity: 1, scale: 1.2, rotateZ: 0 }}
-                                className="text-cyan-400 text-xl"
-                              >
-                                ⭐
-                              </motion.div>
-                            )}
-                          </div>
-                          
-                          {/* Enhanced Description */}
-                          {commandInfo && (
-                            <motion.p 
-                              className={`text-sm transition-all duration-300 ${
-                                isSelected 
-                                  ? 'text-cyan-200' 
-                                  : 'text-gray-400 group-hover:text-gray-300'
-                              }`}
-                              animate={isSelected ? { 
-                                textShadow: ["0 0 5px rgba(0,255,255,0.3)", "0 0 10px rgba(0,255,255,0.5)", "0 0 5px rgba(0,255,255,0.3)"]
-                              } : {}}
-                              transition={{ duration: 2, repeat: isSelected ? Infinity : 0 }}
-                            >
-                              {commandInfo.description}
-                            </motion.p>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Enhanced Badges */}
-                      <div className="flex flex-col items-end gap-2 flex-shrink-0 ml-4">
-                        {commandInfo?.shortcut && (
-                          <motion.span 
-                            className="text-xs text-cyan-300 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 px-2 py-1 rounded-full font-mono border border-cyan-400/30"
-                            whileHover={{ scale: 1.1, boxShadow: "0 0 10px rgba(0,255,255,0.3)" }}
-                          >
-                            {commandInfo.shortcut}
-                          </motion.span>
-                        )}
-                        <motion.span 
-                          className={`${getCategoryBadge(commandInfo?.category || 'utility')} transform transition-all duration-300`}
-                          whileHover={{ scale: 1.05 }}
-                          animate={isSelected ? { 
-                            scale: [1, 1.1, 1],
-                            boxShadow: ["0 0 5px rgba(0,255,255,0.2)", "0 0 15px rgba(255,0,255,0.3)", "0 0 5px rgba(0,255,255,0.2)"]
-                          } : {}}
-                          transition={{ duration: 2, repeat: isSelected ? Infinity : 0 }}
-                        >
-                          {commandInfo?.category || 'cmd'}
-                        </motion.span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-
-          {/* Spectacular Footer */}
-          <div className="px-6 py-4 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 rounded-b-3xl"></div>
-            <div className="relative flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <motion.kbd 
-                    className="bg-gradient-to-r from-cyan-500/30 to-purple-500/30 px-2 py-1 rounded-lg text-xs font-bold text-cyan-300 border border-cyan-400/30"
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 10px rgba(0,255,255,0.3)" }}
-                  >↑</motion.kbd>
-                  <motion.kbd 
-                    className="bg-gradient-to-r from-cyan-500/30 to-purple-500/30 px-2 py-1 rounded-lg text-xs font-bold text-cyan-300 border border-cyan-400/30"
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 10px rgba(0,255,255,0.3)" }}
-                  >↓</motion.kbd>
-                  <span className="text-xs text-gray-400 ml-1">Navigate</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <motion.kbd 
-                    className="bg-gradient-to-r from-purple-500/30 to-pink-500/30 px-2 py-1 rounded-lg text-xs font-bold text-purple-300 border border-purple-400/30"
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 10px rgba(128,0,255,0.3)" }}
-                  >Tab</motion.kbd>
-                  <motion.kbd 
-                    className="bg-gradient-to-r from-pink-500/30 to-cyan-500/30 px-2 py-1 rounded-lg text-xs font-bold text-pink-300 border border-pink-400/30"
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 10px rgba(255,20,147,0.3)" }}
-                  >Enter</motion.kbd>
-                  <span className="text-xs text-gray-400 ml-1">Select</span>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.5, 1],
-                    opacity: [0.3, 1, 0.3],
-                    rotate: [0, 360]
+                  animate={isSelected ? {
+                    scale: [1, 1.3, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                    rotate: [0, 180, 360]
+                  } : {}}
+                  transition={{ duration: 3, repeat: isSelected ? Infinity : 0 }}
+                  style={{
+                    borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+                    transform: 'rotate(45deg)'
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full"
                 />
-                <span className="text-xs font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                  AI Powered
-                </span>
-              </div>
-            </div>
-          </div>
+                
+                {/* Main suggestion pill */}
+                <motion.div
+                  className={`
+                    relative px-6 py-3 backdrop-blur-lg transition-all duration-300
+                    ${isSelected 
+                      ? 'bg-gradient-to-r from-black/70 via-purple-900/50 to-black/70 shadow-2xl shadow-cyan-500/30' 
+                      : 'bg-gradient-to-r from-black/50 via-gray-900/40 to-black/50 group-hover:from-black/60 group-hover:via-purple-900/30 group-hover:to-black/60'
+                    }
+                  `}
+                  animate={isSelected ? {
+                    boxShadow: [
+                      "0 0 20px rgba(0,255,255,0.3)", 
+                      "0 0 40px rgba(255,0,255,0.4)", 
+                      "0 0 20px rgba(0,255,255,0.3)"
+                    ]
+                  } : {}}
+                  transition={{ duration: 2, repeat: isSelected ? Infinity : 0 }}
+                  style={{
+                    borderRadius: '25px 15px 30px 10px',
+                    clipPath: 'polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%)'
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* Floating icon */}
+                    <motion.span
+                      className="text-xl"
+                      animate={isSelected ? {
+                        scale: [1, 1.4, 1],
+                        rotate: [0, 15, -15, 0],
+                        filter: ["hue-rotate(0deg)", "hue-rotate(120deg)", "hue-rotate(240deg)", "hue-rotate(360deg)"]
+                      } : {}}
+                      transition={{ duration: 2, repeat: isSelected ? Infinity : 0 }}
+                    >
+                      {commandInfo?.icon || '✨'}
+                    </motion.span>
+                    
+                    {/* Command text with highlight */}
+                    <motion.span
+                      className={`font-mono font-semibold transition-all duration-300 ${
+                        isSelected 
+                          ? 'text-transparent bg-gradient-to-r from-cyan-300 via-white to-purple-300 bg-clip-text text-lg' 
+                          : 'text-gray-300 group-hover:text-white text-base'
+                      }`}
+                      animate={isSelected ? {
+                        textShadow: [
+                          "0 0 10px rgba(0,255,255,0.5)",
+                          "0 0 20px rgba(255,255,255,0.8)",
+                          "0 0 10px rgba(255,0,255,0.5)"
+                        ]
+                      } : {}}
+                      transition={{ duration: 1.5, repeat: isSelected ? Infinity : 0 }}
+                    >
+                      {currentInput && suggestion.toLowerCase().includes(currentInput.toLowerCase()) ? (
+                        <>
+                          {suggestion.split(new RegExp(`(${currentInput})`, 'gi')).map((part, i) => (
+                            part.toLowerCase() === currentInput.toLowerCase() ? (
+                              <motion.span
+                                key={i}
+                                className="bg-gradient-to-r from-yellow-300 to-orange-400 text-black px-1 rounded-md font-black"
+                                animate={{
+                                  boxShadow: [
+                                    "0 0 5px rgba(255,255,0,0.6)",
+                                    "0 0 15px rgba(255,165,0,0.8)",
+                                    "0 0 5px rgba(255,255,0,0.6)"
+                                  ]
+                                }}
+                                transition={{ duration: 1, repeat: Infinity }}
+                              >
+                                {part}
+                              </motion.span>
+                            ) : (
+                              <span key={i}>{part}</span>
+                            )
+                          ))}
+                        </>
+                      ) : (
+                        suggestion
+                      )}
+                    </motion.span>
+                  </div>
+                  
+                  {/* Description tooltip */}
+                  {isSelected && commandInfo && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 backdrop-blur-md text-xs text-cyan-200 whitespace-nowrap"
+                      style={{
+                        borderRadius: '20px 5px 20px 5px',
+                        clipPath: 'polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)'
+                      }}
+                    >
+                      <motion.span
+                        animate={{
+                          textShadow: [
+                            "0 0 5px rgba(0,255,255,0.3)",
+                            "0 0 10px rgba(0,255,255,0.6)",
+                            "0 0 5px rgba(0,255,255,0.3)"
+                          ]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        {commandInfo.description}
+                      </motion.span>
+                      
+                      {/* Floating triangle pointer */}
+                      <div 
+                        className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-black/80"
+                      />
+                    </motion.div>
+                  )}
+                </motion.div>
+                
+                {/* Selection indicator */}
+                {isSelected && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 360 }}
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-purple-400 text-white text-xs flex items-center justify-center font-bold"
+                    style={{ borderRadius: '50% 20% 50% 20%' }}
+                  >
+                    ⚡
+                  </motion.div>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
+        
+        {/* Floating help text */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="flex justify-center mt-6 gap-6"
+        >
+          <motion.div
+            className="flex items-center gap-2 text-xs text-gray-500"
+            whileHover={{ scale: 1.05, color: "#64ffda" }}
+          >
+            <motion.span
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-cyan-400"
+            >
+              ↑↓
+            </motion.span>
+            <span>navigate</span>
+          </motion.div>
+          
+          <motion.div
+            className="flex items-center gap-2 text-xs text-gray-500"
+            whileHover={{ scale: 1.05, color: "#a78bfa" }}
+          >
+            <motion.span
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              className="text-purple-400"
+            >
+              ⏎
+            </motion.span>
+            <span>select</span>
+          </motion.div>
+          
+          <motion.div
+            className="flex items-center gap-2 text-xs text-gray-500"
+            whileHover={{ scale: 1.05, color: "#f472b6" }}
+          >
+            <motion.div
+              animate={{ 
+                scale: [1, 1.3, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="w-2 h-2 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-full"
+            />
+            <span>ai powered</span>
+          </motion.div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   )

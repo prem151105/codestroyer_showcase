@@ -202,60 +202,163 @@ export default function Terminal() {
           </AnimatePresence>
         </div>
 
-        {/* Spectacular Input Area */}
+        {/* Fluid Organic Input Area */}
         <motion.form 
           onSubmit={handleSubmit} 
-          className="sticky bottom-0 p-1"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
+          className="sticky bottom-0 p-4"
+          initial={{ y: 50, opacity: 0, scale: 0.9 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{ delay: 1, duration: 0.8, type: "spring", stiffness: 100 }}
         >
           <div className="relative group">
-            {/* Morphing Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-xl transform scale-105 opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+            {/* Flowing liquid background */}
+            <motion.div
+              className="absolute inset-0 blur-2xl opacity-40 group-hover:opacity-70 transition-all duration-700"
+              animate={{
+                background: [
+                  "radial-gradient(ellipse 300% 100% at 0% 50%, rgba(0,255,255,0.3), transparent 50%)",
+                  "radial-gradient(ellipse 300% 100% at 100% 50%, rgba(255,0,255,0.3), transparent 50%)",
+                  "radial-gradient(ellipse 300% 100% at 50% 0%, rgba(255,255,0,0.3), transparent 50%)",
+                  "radial-gradient(ellipse 300% 100% at 0% 50%, rgba(0,255,255,0.3), transparent 50%)"
+                ]
+              }}
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              style={{
+                borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%'
+              }}
+            />
             
-            {/* Dynamic Border */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 p-0.5 animate-pulse-slow">
-              <div className="rounded-full bg-black/90 backdrop-blur-xl h-full w-full"></div>
-            </div>
-            
-            {/* Input Container */}
-            <div className="relative flex items-center px-6 py-4 rounded-full">
-              <motion.span 
-                className="command-prompt text-base md:text-lg font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
-                animate={{ 
-                  textShadow: ["0 0 10px rgba(0,255,255,0.5)", "0 0 20px rgba(128,0,255,0.5)", "0 0 10px rgba(0,255,255,0.5)"]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {prompt}
-              </motion.span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => {
-                  const newValue = e.target.value
-                  setInput(newValue)
-                  updateSuggestions(newValue)
-                }}
-                onKeyDown={handleKeyDown}
-                className="command-input-fluid ml-3 flex-1 text-base md:text-lg font-medium"
-                disabled={isTyping}
-                autoComplete="off"
-                spellCheck={false}
-                placeholder="Start typing magic..."
-              />
+            {/* Organic morphing container */}
+            <motion.div
+              className="relative backdrop-blur-xl bg-gradient-to-r from-black/60 via-purple-900/30 to-black/60 group-hover:from-black/70 group-hover:via-purple-900/40 group-hover:to-black/70 transition-all duration-500"
+              animate={{
+                borderRadius: [
+                  "25px 50px 25px 50px",
+                  "50px 25px 50px 25px", 
+                  "35px 65px 35px 65px",
+                  "25px 50px 25px 50px"
+                ]
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              style={{
+                clipPath: 'polygon(2% 0%, 98% 0%, 100% 85%, 95% 100%, 5% 100%, 0% 85%)'
+              }}
+            >
+              <div className="flex items-center px-8 py-5">
+                {/* Flowing prompt */}
+                <motion.span 
+                  className="command-prompt text-base md:text-lg font-bold mr-4"
+                  animate={{ 
+                    background: [
+                      "linear-gradient(45deg, #00ffff, #ff00ff)",
+                      "linear-gradient(45deg, #ff00ff, #ffff00)", 
+                      "linear-gradient(45deg, #ffff00, #00ffff)"
+                    ],
+                    textShadow: [
+                      "0 0 20px rgba(0,255,255,0.6)",
+                      "0 0 20px rgba(255,0,255,0.6)",
+                      "0 0 20px rgba(255,255,0,0.6)"
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  style={{
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    color: 'transparent'
+                  }}
+                >
+                  {prompt}
+                </motion.span>
+                
+                {/* Fluid input field */}
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => {
+                    const newValue = e.target.value
+                    setInput(newValue)
+                    updateSuggestions(newValue)
+                  }}
+                  onKeyDown={handleKeyDown}
+                  className="command-input-organic flex-1 text-base md:text-lg font-medium bg-transparent border-none outline-none text-white/95 caret-cyan-400"
+                  disabled={isTyping}
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="flow your thoughts here..."
+                  style={{
+                    textShadow: '0 0 10px rgba(0,255,255,0.3)'
+                  }}
+                />
+                
+                {/* Organic cursor */}
+                <motion.div
+                  className="ml-4"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    rotate: [0, 360],
+                    filter: ["hue-rotate(0deg)", "hue-rotate(360deg)"]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <motion.span
+                    className="text-2xl"
+                    animate={{
+                      textShadow: [
+                        "0 0 10px rgba(0,255,255,0.8)",
+                        "0 0 20px rgba(255,0,255,0.8)",
+                        "0 0 10px rgba(0,255,255,0.8)"
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    ✨
+                  </motion.span>
+                </motion.div>
+              </div>
+              
+              {/* Flowing energy lines */}
               <motion.div
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 360],
-                  filter: ["hue-rotate(0deg)", "hue-rotate(360deg)"]
+                className="absolute bottom-0 left-0 right-0 h-1 overflow-hidden"
+                style={{
+                  borderRadius: '0 0 25px 50px'
                 }}
-                transition={{ duration: 3, repeat: Infinity }}
               >
-                <AnimatedCursor isTyping={isTyping} variant="cyberpunk" />
+                <motion.div
+                  className="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400"
+                  animate={{
+                    x: ['-100%', '100%'],
+                    opacity: [0.3, 1, 0.3]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
               </motion.div>
+            </motion.div>
+            
+            {/* Floating particles around input */}
+            <div className="absolute inset-0 pointer-events-none">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full opacity-40"
+                  animate={{
+                    x: [0, Math.random() * 100 - 50],
+                    y: [0, Math.random() * 60 - 30],
+                    scale: [0.5, 1, 0.5],
+                    opacity: [0.2, 0.6, 0.2]
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    delay: i * 0.5,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    left: `${10 + i * 15}%`,
+                    top: `${30 + (i % 2) * 40}%`
+                  }}
+                />
+              ))}
             </div>
           </div>
         </motion.form>

@@ -1275,7 +1275,58 @@ a {
   100% { filter: hue-rotate(360deg) saturate(1.5); }
 }
 
-/* Enhanced Input Styling */
+/* Organic Fluid Input Styling */
+.command-input-organic {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.command-input-organic::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+  font-style: italic;
+  animation: organic-placeholder-flow 4s ease-in-out infinite;
+}
+
+@keyframes organic-placeholder-flow {
+  0%, 100% { 
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    opacity: 0.4;
+    transform: translateX(0);
+  }
+  25% { 
+    text-shadow: 0 0 12px rgba(255, 0, 255, 0.4);
+    opacity: 0.6;
+    transform: translateX(2px);
+  }
+  50% { 
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.4);
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+  75% { 
+    text-shadow: 0 0 14px rgba(0, 255, 255, 0.5);
+    opacity: 0.7;
+    transform: translateX(-2px);
+  }
+}
+
+.command-input-organic:focus::placeholder {
+  opacity: 0;
+  transform: translateY(-15px) scale(0.8);
+  transition: all 0.5s ease;
+}
+
+.command-input-organic:focus {
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+/* Legacy fluid input for compatibility */
 .command-input-fluid {
   background: transparent;
   border: none;
