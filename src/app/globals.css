@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Modern Terminal Color Scheme - Prakhar Style */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -12,9 +13,276 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background: #000000;
-  color: #00ff00;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+}
+
+.terminal-container {
+  /* Main terminal background - very dark but not pure black */
+  background: #0d1117;
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  /* Terminal border with subtle glow */
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* Font settings */
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.terminal-content {
+  /* Main text color - soft white/gray */
+  color: #e6edf3;
+  padding: 20px;
+  min-height: 400px;
+}
+
+/* Command prompt styling */
+.command-prompt {
+  color: #58a6ff; /* Bright blue for username/prompt */
+  font-weight: 500;
+}
+
+.command-prompt .username {
+  color: #7c3aed; /* Purple for username */
+}
+
+.command-prompt .at-symbol {
+  color: #e6edf3; /* White for @ symbol */
+}
+
+.command-prompt .hostname {
+  color: #58a6ff; /* Blue for hostname */
+}
+
+.command-prompt .path {
+  color: #39d353; /* Green for current path */
+}
+
+.command-prompt .dollar {
+  color: #f85149; /* Red for $ symbol */
+}
+
+/* Input field */
+.command-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e6edf3;
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: #58a6ff;
+  width: 100%;
+}
+
+/* Command output styling */
+.command-output {
+  margin: 8px 0;
+  white-space: pre-wrap;
+}
+
+/* Different text colors for content */
+.text-primary {
+  color: #e6edf3; /* Main white text */
+}
+
+.text-secondary {
+  color: #8b949e; /* Muted gray text */
+}
+
+.text-accent {
+  color: #58a6ff; /* Blue accent */
+}
+
+.text-success {
+  color: #39d353; /* Green for success/links */
+}
+
+.text-warning {
+  color: #d29922; /* Yellow/orange for warnings */
+}
+
+.text-error {
+  color: #f85149; /* Red for errors */
+}
+
+.text-purple {
+  color: #a5a5f5; /* Purple for highlights */
+}
+
+.text-cyan {
+  color: #39c5cf; /* Cyan for special info */
+}
+
+/* Headers and section titles */
+.section-header {
+  color: #58a6ff;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 16px 0 8px 0;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 4px;
+}
+
+/* Links */
+.terminal-link {
+  color: #39d353;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.terminal-link:hover {
+  color: #58a6ff;
+  text-decoration: underline;
+}
+
+/* Skill tags or badges */
+.skill-tag {
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid #58a6ff;
+  color: #58a6ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 2px;
+  display: inline-block;
+}
+
+/* ASCII art and borders */
+.ascii-art {
+  color: #58a6ff;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.border-line {
+  color: #30363d;
+}
+
+/* Cursor animation */
+.cursor {
+  background-color: #58a6ff;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Command suggestions */
+.command-suggestion {
+  background: rgba(88, 166, 255, 0.05);
+  border-left: 3px solid #58a6ff;
+  padding: 8px 12px;
+  margin: 8px 0;
+  color: #8b949e;
+  font-style: italic;
+}
+
+/* Scrollbar styling */
+.terminal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-container::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+.terminal-container::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+.terminal-container::-webkit-scrollbar-thumb:hover {
+  background: #58a6ff;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .terminal-container {
+    border-radius: 0;
+    margin: 0;
+    min-height: 100vh;
+  }
+  .terminal-content {
+    padding: 16px;
+    font-size: 13px;
+  }
+  .command-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Welcome message styling */
+.welcome-banner {
+  color: #58a6ff;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: rgba(88, 166, 255, 0.02);
+}
+
+/* Command list styling */
+.command-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.command-item {
+  color: #39d353;
+  font-weight: 500;
+}
+
+.command-description {
+  color: #8b949e;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* Project cards */
+.project-card {
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 8px 0;
+  background: rgba(13, 17, 23, 0.5);
+}
+
+.project-title {
+  color: #58a6ff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.project-tech {
+  color: #a5a5f5;
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.project-description {
+  color: #e6edf3;
+  margin: 8px 0;
+}
+
+/* Achievement highlights */
+.achievement {
+  color: #d29922;
+  font-weight: 500;
+}
+
+.rating-highlight {
+  color: #39d353;
+  font-weight: bold;
 }
 
 a {

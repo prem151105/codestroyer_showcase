@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTerminalLogic } from '@/hooks/useTerminalLogic'
-import { useTheme } from '@/hooks/useTheme'
 import CommandSuggestions from './CommandSuggestions'
 
 export default function Terminal() {
@@ -12,7 +11,6 @@ export default function Terminal() {
   const [historyIndex, setHistoryIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
-  const { theme, themeName, changeTheme, getThemeClasses } = useTheme()
   
   const {
     history,
@@ -44,17 +42,11 @@ export default function Terminal() {
 
     setIsTyping(true)
     
-    // Handle theme changes
-    if (input.trim().startsWith('theme ')) {
-      const newTheme = input.trim().split(' ')[1]
-      changeTheme(newTheme)
-    }
-    
     await executeCommand(input.trim())
     setInput('')
     setHistoryIndex(-1)
     setIsTyping(false)
-  }, [input, executeCommand, changeTheme])
+  }, [input, executeCommand])
 
   // Handle key events
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -98,7 +90,7 @@ export default function Terminal() {
   const prompt = `anurag@portfolio:~$ `
 
   return (
-    <div className={`min-h-screen font-mono text-sm ${getThemeClasses()} transition-all duration-300`}>
+    <div className="min-h-screen font-mono text-sm terminal-content">
       <div 
         ref={terminalRef}
         className="p-6 pb-20 overflow-y-auto"
@@ -112,40 +104,39 @@ export default function Terminal() {
           transition={{ duration: 1.2 }}
           className="mb-8"
         >
-          <div className="text-center border border-current rounded-lg p-6 mb-6 bg-opacity-5 bg-white backdrop-blur-sm">
-            <pre className="ascii-art glow-text text-xs md:text-sm mb-4 select-none">
+          <div className="welcome-banner">
+            <pre className="ascii-art text-xs md:text-sm mb-4 select-none">
 {`┌──────────────────────────────────────────────────────────┐
 │  ▄▀█ █▄░█ █░█ █▀█ ▄▀█ █▀▀   ░░█ ▄▀█ █▄█ ▄▀█ █▀ █░█░█ ▄▀█ █░░  │
 │  █▀█ █░▀█ █▄█ █▀▄ █▀█ █▄█   █▄█ █▀█ ░█░ █▀█ ▄█ ▀▄▀▄▀ █▀█ █▄▄  │
 └──────────────────────────────────────────────────────────┘`}
             </pre>
             <div className="text-lg font-bold mb-2">🚀 AI/ML Developer | 💻 Competitive Programmer | 🎓 IIIT Bhagalpur</div>
-            <div className="text-sm opacity-80 mb-3">Welcome to my interactive terminal portfolio!</div>
+            <div className="text-sm text-secondary mb-3">Welcome to my interactive terminal portfolio!</div>
             
             {/* Quick Stats */}
-            <div className="flex justify-center items-center space-x-6 text-xs opacity-70 mb-4">
+            <div className="flex justify-center items-center space-x-6 text-xs text-secondary mb-4">
               <span>📊 250+ LeetCode</span>
               <span>⭐ 1500+ Rating</span>
               <span>🏆 Specialist CF</span>
               <span>📈 7.71 CGPA</span>
             </div>
 
-            <div className="text-xs opacity-60 mb-2">
-              <span className="text-terminal-cyan font-semibold">Quick start:</span> help | about | projects | experience | skills | contact
+            <div className="text-xs text-secondary mb-2">
+              <span className="text-cyan font-semibold">Quick start:</span> help | about | projects | experience | skills | contact
             </div>
-            <div className="text-xs opacity-50">
-              Theme: <span className="text-terminal-cyan">{themeName}</span> | 
-              Press <span className="text-terminal-cyan">Tab</span> for autocomplete
+            <div className="text-xs text-secondary">
+              Press <span className="text-cyan">Tab</span> for autocomplete
             </div>
           </div>
 
-          {/* Enhanced Mobile Command Buttons */}
-          <div className="md:hidden mobile-commands">
+          {/* Mobile Command Buttons */}
+          <div className="md:hidden">
             <div className="grid grid-cols-3 gap-2 mb-3">
               {['help', 'about', 'projects', 'experience', 'skills', 'contact'].map((cmd) => (
                 <button
                   key={cmd}
-                  className="command-button text-center"
+                  className="skill-tag hover:text-success cursor-pointer text-center py-2"
                   onClick={() => {
                     setInput(cmd)
                     handleSubmit({ preventDefault: () => {} } as React.FormEvent)
@@ -156,12 +147,11 @@ export default function Terminal() {
               ))}
             </div>
             
-            {/* Additional Commands Row */}
-            <div className="grid grid-cols-4 gap-2 mb-3">
+            <div className="grid grid-cols-3 gap-2 mb-3">
               {['education', 'resume', 'clear'].map((cmd) => (
                 <button
                   key={cmd}
-                  className="command-button text-center"
+                  className="skill-tag hover:text-success cursor-pointer text-center py-2"
                   onClick={() => {
                     setInput(cmd)
                     handleSubmit({ preventDefault: () => {} } as React.FormEvent)
@@ -170,36 +160,25 @@ export default function Terminal() {
                   {cmd}
                 </button>
               ))}
-              
-              {/* Theme Selector Dropdown */}
-              <select
-                className="command-button text-center bg-transparent"
-                value={currentTheme}
-                onChange={(e) => changeTheme(e.target.value)}
-              >
-                <option value="classic" className="bg-black">Classic</option>
-                <option value="modern" className="bg-black">Modern</option>
-                <option value="matrix" className="bg-black">Matrix</option>
-              </select>
             </div>
             
-            <div className="text-center text-xs opacity-60">
-              💡 Tap commands above, use dropdown for themes, or type manually below
+            <div className="text-center text-xs text-secondary">
+              💡 Tap commands above or type manually below
             </div>
           </div>
         </motion.div>
 
-        {/* Professional System Info */}
+        {/* System Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mb-6 text-xs opacity-75 border-l-2 border-current pl-4"
+          className="mb-6 text-xs text-secondary border-l-2 border-accent pl-4"
         >
-          <div className="text-green-400 mb-1">✓ System initialized successfully</div>
+          <div className="text-success mb-1">✓ System initialized successfully</div>
           <div>📅 Session: {new Date().toLocaleString()} | 🖥️ Terminal: v{systemInfo.version}</div>
-          <div>📍 Location: Gwalior, MP | 🟢 Status: <span className="text-green-400 font-semibold">Available for opportunities</span></div>
-          <div className="text-yellow-400">💼 Seeking: Full-time SDE roles & AI/ML positions</div>
+          <div>📍 Location: Gwalior, MP | 🟢 Status: <span className="text-success font-semibold">Available for opportunities</span></div>
+          <div className="text-warning">💼 Seeking: Full-time SDE roles & AI/ML positions</div>
         </motion.div>
 
         {/* Command History */}
@@ -216,7 +195,7 @@ export default function Terminal() {
               >
                 {entry.type === 'command' && (
                   <div className="flex">
-                    <span className="text-terminal-green">{prompt}</span>
+                    <span className="text-success">{prompt}</span>
                     <span>{entry.content}</span>
                   </div>
                 )}
@@ -239,14 +218,14 @@ export default function Terminal() {
         {/* Current Input */}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="flex items-center">
-            <span className="text-terminal-green">{prompt}</span>
+            <span className="text-success">{prompt}</span>
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent border-none outline-none text-current ml-1"
+              className="command-input ml-1"
               disabled={isTyping}
               autoComplete="off"
               spellCheck={false}
@@ -254,7 +233,7 @@ export default function Terminal() {
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 1, repeat: Infinity }}
-              className="cursor-blink text-current"
+              className="cursor"
             >
               _
             </motion.span>
@@ -273,26 +252,23 @@ export default function Terminal() {
         )}
       </div>
 
-      {/* Enhanced Professional Status Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black bg-opacity-95 border-t border-current p-2 text-xs backdrop-blur-sm">
+      {/* Status Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black bg-opacity-95 border-t border-secondary p-2 text-xs backdrop-blur-sm">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-1 md:space-y-0">
-          <div className="flex flex-wrap space-x-4">
+          <div className="flex flex-wrap space-x-4 text-secondary">
             <span className="flex items-center">
-              🎨 Theme: <span className="text-terminal-cyan ml-1">{themeName}</span>
-            </span>
-            <span className="flex items-center">
-              📝 Commands: <span className="text-terminal-cyan ml-1">{commandHistory.length}</span>
+              📝 Commands: <span className="text-cyan ml-1">{commandHistory.length}</span>
             </span>
             <span className="flex items-center hidden sm:flex">
-              🚀 <span className="text-green-400 ml-1">Ready</span>
+              🚀 <span className="text-success ml-1">Ready</span>
             </span>
           </div>
-          <div className="flex flex-wrap space-x-4">
+          <div className="flex flex-wrap space-x-4 text-secondary">
             <span className="hidden md:flex">💡 Type 'help' for available commands</span>
             <span className="flex items-center">
               ⏰ {new Date().toLocaleTimeString()}
             </span>
-            <span className="text-green-400 text-xs">●</span>
+            <span className="text-success text-xs">●</span>
           </div>
         </div>
       </div>

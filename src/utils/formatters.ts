@@ -2,11 +2,11 @@ import { portfolioData } from '@/data/portfolioData'
 import { commands, commandCategories } from '@/data/commands'
 
 const colors = {
-  primary: '<span class="text-terminal-green">',
-  secondary: '<span class="text-terminal-cyan">',
-  accent: '<span class="text-terminal-amber">',
-  error: '<span class="text-red-400">',
-  success: '<span class="text-green-400">',
+  primary: '<span class="text-success">',
+  secondary: '<span class="text-accent">',
+  accent: '<span class="text-warning">',
+  error: '<span class="text-error">',
+  success: '<span class="text-success">',
   end: '</span>'
 }
 
@@ -52,9 +52,7 @@ ${formatWithColor('🎯 NAVIGATION TIPS:', colors.accent)}
 • ${formatWithColor('Ctrl+L', colors.primary)} - Quick screen clear shortcut
 • ${formatWithColor('Mobile users', colors.primary)} - Use the command buttons above for easy navigation
 
-${formatWithColor('🎨 THEMES:', colors.secondary)} Switch visual themes with ${formatWithColor('theme <name>', colors.primary)}
-Available themes: ${formatWithColor('classic', colors.accent)} | ${formatWithColor('modern', colors.accent)} | ${formatWithColor('matrix', colors.accent)}
-Example: type "${formatWithColor('theme modern', colors.primary)}" or use mobile dropdown
+
 
 ${formatWithColor('💡 RECOMMENDED JOURNEY FOR RECRUITERS:', colors.success)}
 1️⃣ ${formatWithColor('about', colors.primary)} → Get to know me and my current goals
@@ -258,10 +256,10 @@ ${formatWithColor('🚀 CURRENTLY LOOKING FOR:', colors.secondary)}
 
 ${formatWithColor('🔗 QUICK ACCESS LINKS:', colors.secondary)}
 
-${formatWithColor('📋 PDF Resume:', colors.primary)}        <a href="#" onclick="window.open('https://docs.google.com/document/d/your-resume-id/export?format=pdf', '_blank')" class="text-terminal-cyan hover:text-terminal-green underline">Download PDF Resume</a>
-${formatWithColor('💼 LinkedIn Profile:', colors.primary)}   <a href="https://linkedin.com/in/anurag-jayaswal" target="_blank" class="text-terminal-cyan hover:text-terminal-green underline">View LinkedIn</a>
+${formatWithColor('📋 PDF Resume:', colors.primary)}        <a href="#" onclick="window.open('https://docs.google.com/document/d/your-resume-id/export?format=pdf', '_blank')" class="terminal-link">Download PDF Resume</a>
+${formatWithColor('💼 LinkedIn Profile:', colors.primary)}   <a href="https://linkedin.com/in/anurag-jayaswal" target="_blank" class="terminal-link">View LinkedIn</a>
 ${formatWithColor('🌐 Portfolio Website:', colors.primary)}  You're here! This terminal is my interactive resume
-${formatWithColor('📧 Direct Contact:', colors.primary)}     <a href="mailto:aj7879219119@gmail.com" class="text-terminal-cyan hover:text-terminal-green underline">aj7879219119@gmail.com</a>
+${formatWithColor('📧 Direct Contact:', colors.primary)}     <a href="mailto:aj7879219119@gmail.com" class="terminal-link">aj7879219119@gmail.com</a>
 
 ${formatWithColor('📊 RESUME HIGHLIGHTS:', colors.secondary)}
 ┌─────────────────────────────────────────────────────────────────┐
