@@ -57,19 +57,33 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
     { name: 'Nginx', icon: '🔧', color: '#009639', logoUrl: '/icons/nginx.png' }
   ]
 
-  const skillsToUse = customSkills.length > 0 ? customSkills : defaultSkills
+  // Responsive skill selection based on screen size
+  const isMobile = windowSize.width < 768
+  const isTablet = windowSize.width < 1024
+  
+  let skillsToShow = customSkills.length > 0 ? customSkills : defaultSkills
+  if (isMobile) {
+    skillsToShow = skillsToShow.slice(0, 8) // Show fewer skills on mobile
+  } else if (isTablet) {
+    skillsToShow = skillsToShow.slice(0, 12) // Show moderate amount on tablet
+  }
 
   const generateRandomPath = (index: number) => {
-    const startX = Math.random() * windowSize.width
-    const startY = Math.random() * windowSize.height
+    // Responsive margins based on screen size
+    const margin = isMobile ? 50 : isTablet ? 75 : 100
+    const safeWidth = Math.max(300, windowSize.width - margin * 2)
+    const safeHeight = Math.max(200, windowSize.height - margin * 2)
     
-    // Create smooth bezier curve paths
-    const controlPoint1X = Math.random() * windowSize.width
-    const controlPoint1Y = Math.random() * windowSize.height
-    const controlPoint2X = Math.random() * windowSize.width  
-    const controlPoint2Y = Math.random() * windowSize.height
-    const endX = Math.random() * windowSize.width
-    const endY = Math.random() * windowSize.height
+    const startX = margin + Math.random() * safeWidth
+    const startY = margin + Math.random() * safeHeight
+    
+    // Create smooth bezier curve paths within safe bounds
+    const controlPoint1X = margin + Math.random() * safeWidth
+    const controlPoint1Y = margin + Math.random() * safeHeight
+    const controlPoint2X = margin + Math.random() * safeWidth  
+    const controlPoint2Y = margin + Math.random() * safeHeight
+    const endX = margin + Math.random() * safeWidth
+    const endY = margin + Math.random() * safeHeight
 
     return {
       startX,
@@ -80,16 +94,19 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
       controlPoint2Y,
       endX,
       endY,
-      duration: 20 + Math.random() * 15, // 20-35 seconds
-      delay: Math.random() * 5 // 0-5 seconds delay
+      duration: isMobile ? 15 + Math.random() * 10 : 20 + Math.random() * 15, // Faster on mobile
+      delay: Math.random() * (isMobile ? 3 : 5) // Less delay on mobile
     }
   }
 
   return (
     <div className={`fixed inset-0 pointer-events-none overflow-hidden z-0 ${className}`}>
-      {skillsToUse.map((skill, index) => {
+      {skillsToShow.map((skill, index) => {
         const path = generateRandomPath(index)
-        const size = 40 + Math.random() * 40 // 40-80px
+        // Responsive sizing based on screen size
+        const baseSize = isMobile ? 30 : isTablet ? 35 : 40
+        const sizeVariation = isMobile ? 20 : isTablet ? 25 : 40
+        const size = baseSize + Math.random() * sizeVariation
         
         return (
           <motion.div
@@ -129,10 +146,14 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
               times: [0, 0.25, 0.5, 0.75, 1]
             }}
             whileHover={{
-              scale: 1.3,
+              scale: isMobile ? 1.2 : 1.3, // Slightly smaller scale on mobile
               rotate: 0,
               opacity: 1,
-              transition: { duration: 0.3 }
+              transition: { duration: isMobile ? 0.2 : 0.3 }
+            }}
+            whileTap={{
+              scale: isMobile ? 1.1 : 1.2, // Touch feedback for mobile
+              transition: { duration: 0.1 }
             }}
             style={{
               width: size,
@@ -183,7 +204,7 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
                   />
                 ) : null}
                 <span 
-                  className="text-xl font-bold drop-shadow-lg"
+                  className={`${isMobile ? 'text-base' : isTablet ? 'text-lg' : 'text-xl'} font-bold drop-shadow-lg`}
                   style={{ display: skill.logoUrl ? 'none' : 'block' }}
                 >
                   {skill.icon}
@@ -192,10 +213,10 @@ const FloatingSkillsAnimation: React.FC<FloatingSkillsAnimationProps> = ({
 
               {/* Tooltip on hover */}
               <motion.div
-                className="absolute -top-10 left-1/2 transform -translate-x-1/2 
-                           bg-gray-900/95 border border-gray-600 text-white px-3 py-1 rounded-lg text-sm
+                className={`absolute ${isMobile ? '-top-8' : '-top-10'} left-1/2 transform -translate-x-1/2 
+                           bg-gray-900/95 border border-gray-600 text-white px-2 md:px-3 py-1 rounded-lg ${isMobile ? 'text-xs' : 'text-sm'}
                            opacity-0 hover:opacity-100 transition-all duration-300
-                           whitespace-nowrap pointer-events-none z-20 backdrop-blur-sm font-medium"
+                           whitespace-nowrap pointer-events-none z-20 backdrop-blur-sm font-medium`}
                 whileHover={{
                   scale: 1.05,
                   y: -2

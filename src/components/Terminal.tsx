@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTerminalLogic } from '@/hooks/useTerminalLogic'
 import CommandSuggestions from './CommandSuggestions'
 import AnimatedCursor from './AnimatedCursor'
-import Dynamic3DUI, { Floating3DCards } from './Dynamic3DUI'
 import CommandOutput from './CommandOutput'
-import LeftSideSkills from './LeftSideSkills'
 
 export default function Terminal() {
   const [input, setInput] = useState('')
@@ -97,39 +95,73 @@ export default function Terminal() {
   const prompt = `visitor@anurag:~$ `
 
   return (
-    <div className="min-h-screen bg-black text-green-400 font-mono-advanced terminal-text relative overflow-hidden">
-      {/* Left Side Moving Skills */}
-      <LeftSideSkills />
+    <div className="min-h-screen relative overflow-hidden terminal-container">
+      {/* Enhanced Dynamic Background Effects */}
+      <div className="absolute inset-0 terminal-grid opacity-20"></div>
       
-      {/* 3D Background */}
-      <Dynamic3DUI />
-      <Floating3DCards />
+      {/* Subtle Matrix Rain Effect */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="matrix-rain"></div>
+      </div>
+      
+      {/* Floating Particles */}
+      <div className="floating-particles absolute inset-0"></div>
       
       <div 
         ref={terminalRef}
-        className="p-4 md:p-8 lg:pl-24 min-h-screen relative z-20 terminal-scroll"
+        className="p-4 md:p-8 min-h-screen relative z-20 terminal-content"
         onClick={() => inputRef.current?.focus()}
       >
-        {/* Clean Welcome */}
+        {/* Enhanced Welcome */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2 }}
-          className="mb-6 md:mb-8"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="welcome-banner mb-6 md:mb-8"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-orange-400 tracking-wider text-center">ANURAG</h1>
-          <div className="text-center md:text-left space-y-2 md:space-y-0">
-            <p className="mb-2 md:mb-4 text-sm md:text-base">Welcome to my portfolio!</p>
-            <p className="mb-1 md:mb-2 text-sm md:text-base">
-              Type <span className="text-orange-400 font-semibold">help</span> to get a list of available commands.
+          <motion.h1 
+            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-center tracking-wide"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            ANURAG JAYASWAL
+          </motion.h1>
+          
+          <motion.div 
+            className="text-center space-y-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <p className="text-lg md:text-xl text-gray-300 font-medium">
+              AI/ML Developer & Software Engineer
             </p>
-            <p className="text-xs md:text-sm text-gray-400">
-              <span className="hidden md:inline">Use </span>
-              <span className="text-orange-400">↑</span> and <span className="text-orange-400">↓</span> to navigate 
-              <span className="hidden md:inline"> command</span> history
-              <span className="md:hidden">.</span>
-            </p>
-          </div>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm md:text-base text-gray-400">
+              <span>Type</span>
+              <kbd className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-lg font-mono font-semibold shadow-lg">
+                help
+              </kbd>
+              <span>to explore my portfolio</span>
+            </div>
+            
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500 mt-4">
+              <span className="flex items-center gap-1">
+                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">↑</kbd>
+                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">↓</kbd>
+                History
+              </span>
+              <span className="flex items-center gap-1">
+                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">Tab</kbd>
+                Autocomplete
+              </span>
+              <span className="flex items-center gap-1">
+                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">Ctrl+L</kbd>
+                Clear
+              </span>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Command History - Full scrollable history */}
@@ -162,10 +194,10 @@ export default function Terminal() {
           </AnimatePresence>
         </div>
 
-        {/* Current Input */}
-        <form onSubmit={handleSubmit} className="sticky bottom-0 bg-black py-2">
+        {/* Enhanced Input Area */}
+        <form onSubmit={handleSubmit} className="sticky bottom-0 bg-gray-900/90 backdrop-blur-md rounded-lg border border-gray-700 p-3 shadow-2xl">
           <div className="flex items-center relative">
-            <span className="text-cyan-400">{prompt}</span>
+            <span className="command-prompt text-sm md:text-base">{prompt}</span>
             <input
               ref={inputRef}
               type="text"
@@ -176,10 +208,11 @@ export default function Terminal() {
                 updateSuggestions(newValue)
               }}
               onKeyDown={handleKeyDown}
-              className="bg-transparent border-none outline-none text-white font-mono ml-1 flex-1"
+              className="command-input ml-1 flex-1 text-sm md:text-base"
               disabled={isTyping}
               autoComplete="off"
               spellCheck={false}
+              placeholder="Type a command... (try 'help')"
             />
             <AnimatedCursor isTyping={isTyping} variant="cyberpunk" />
           </div>

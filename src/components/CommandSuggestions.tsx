@@ -13,19 +13,30 @@ interface CommandInfo {
   name: string
   description: string
   example: string
-  category: 'essential' | 'professional' | 'utility'
+  category: 'essential' | 'professional' | 'utility' | 'interactive' | 'system'
+  icon: string
+  shortcut?: string
 }
 
 const commandDetails: Record<string, CommandInfo> = {
-  help: { name: 'help', description: 'Show all available commands', example: 'help', category: 'essential' },
-  about: { name: 'about', description: 'Learn about me and my background', example: 'about', category: 'essential' },
-  experience: { name: 'experience', description: 'View my work experience', example: 'experience', category: 'professional' },
-  projects: { name: 'projects', description: 'Explore my technical projects', example: 'projects', category: 'professional' },
-  skills: { name: 'skills', description: 'View my technical skills', example: 'skills', category: 'professional' },
-  education: { name: 'education', description: 'Check my educational background', example: 'education', category: 'professional' },
-  contact: { name: 'contact', description: 'Get my contact information', example: 'contact', category: 'essential' },
-  resume: { name: 'resume', description: 'View or download my resume', example: 'resume', category: 'professional' },
-  clear: { name: 'clear', description: 'Clear the terminal screen', example: 'clear', category: 'utility' }
+  help: { name: 'help', description: 'Show all available commands', example: 'help', category: 'essential', icon: '💡', shortcut: '?' },
+  about: { name: 'about', description: 'Learn about me and my background', example: 'about', category: 'essential', icon: '👨‍💻' },
+  experience: { name: 'experience', description: 'View my work experience', example: 'experience', category: 'professional', icon: '💼' },
+  projects: { name: 'projects', description: 'Explore my technical projects', example: 'projects', category: 'professional', icon: '🚀' },
+  skills: { name: 'skills', description: 'View my technical skills', example: 'skills', category: 'professional', icon: '⚡' },
+  education: { name: 'education', description: 'Check my educational background', example: 'education', category: 'professional', icon: '🎓' },
+  contact: { name: 'contact', description: 'Get my contact information', example: 'contact', category: 'essential', icon: '📧' },
+  resume: { name: 'resume', description: 'View or download my resume', example: 'resume', category: 'professional', icon: '📄' },
+  clear: { name: 'clear', description: 'Clear the terminal screen', example: 'clear', category: 'utility', icon: '🧹', shortcut: 'Ctrl+L' },
+  achievements: { name: 'achievements', description: 'View my coding achievements', example: 'achievements', category: 'professional', icon: '🏆' },
+  coding: { name: 'coding', description: 'Coding platform statistics', example: 'coding', category: 'professional', icon: '💻' },
+  snake: { name: 'snake', description: 'Play the Snake game', example: 'snake', category: 'interactive', icon: '🐍' },
+  typing: { name: 'typing', description: 'Take a typing speed test', example: 'typing', category: 'interactive', icon: '⌨️' },
+  matrix: { name: 'matrix', description: 'Matrix rain animation', example: 'matrix', category: 'interactive', icon: '🔢' },
+  theme: { name: 'theme', description: 'Change terminal theme', example: 'theme classic', category: 'utility', icon: '🎨' },
+  ls: { name: 'ls', description: 'List directory contents', example: 'ls', category: 'system', icon: '📁' },
+  pwd: { name: 'pwd', description: 'Show current directory', example: 'pwd', category: 'system', icon: '📍' },
+  cd: { name: 'cd', description: 'Change directory', example: 'cd /projects', category: 'system', icon: '➡️' }
 }
 
 export default function CommandSuggestions({ suggestions, onSelect, currentInput }: CommandSuggestionsProps) {
