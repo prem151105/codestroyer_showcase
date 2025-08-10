@@ -766,6 +766,21 @@ a {
 @media (max-width: 480px) {
   .welcome-banner h1 {
     font-size: 1.875rem !important; /* 30px */
+    line-height: 1.2;
+  }
+  
+  .terminal-content {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+  
+  .command-input {
+    font-size: 16px !important; /* Prevent zoom */
+    padding: 4px 0;
+  }
+  
+  .floating-particles {
+    display: none; /* Disable on small mobile for performance */
   }
   
   .interactive-hover:hover {
@@ -805,16 +820,6 @@ a {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000;
-}
-  
-  .command-input {
-    font-size: 16px !important; /* Prevent zoom */
-    padding: 4px 0;
-  }
-  
-  .floating-particles {
-    display: none; /* Disable on small mobile for performance */
-  }
 }
 
 /* Enhanced Tablet Support */
