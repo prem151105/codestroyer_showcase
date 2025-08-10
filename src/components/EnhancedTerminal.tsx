@@ -33,7 +33,7 @@ import {
 import { 
   ErrorBoundary, 
   ResourcePreloader,
-  usePerformanceMonitor 
+  usePerformanceMonitor
 } from './PerformanceOptimized'
 
 import CommandSuggestions from './CommandSuggestions'

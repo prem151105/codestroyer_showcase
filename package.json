@@ -18,7 +18,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf .next out node_modules/.cache",
+    "clean": "rimraf .next out node_modules/.cache",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {

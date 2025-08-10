@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-.yarn/install-state.gz
 
 # testing
 /coverage
@@ -36,13 +35,22 @@ yarn-error.log*
 next-env.d.ts
 
 # IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+.vscode
+.idea
 
 # OS
 Thumbs.db
 
-# Custom
-/backup/
+# logs
+logs
+*.log
+
+# testing
+/test
+*.test.js
+*.test.ts
+
+# backup files
+*.bak
+*.orig
+*~
