@@ -296,7 +296,7 @@ export default function Terminal() {
         </motion.div>
 
         {/* Command History - Full scrollable history */}
-        <div className="space-y-1 md:space-y-2 mb-6 md:mb-8">
+        <div className="space-y-1 md:space-y-2 mb-6 md:mb-8 relative z-20">
           <AnimatePresence>
             {history.map((entry, index) => (
               <motion.div
@@ -305,20 +305,30 @@ export default function Terminal() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
-                className="terminal-line"
+                className="terminal-line relative"
+                style={{ 
+                  background: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  margin: '2px 0',
+                  wordWrap: 'break-word',
+                  overflowWrap: 'anywhere'
+                }}
               >
                 {entry.type === 'command' && (
-                  <div className="flex">
-                    <span className="text-cyan-400">{prompt}</span>
-                    <span className="text-white">{entry.content}</span>
+                  <div className="flex flex-wrap items-start">
+                    <span className="text-cyan-400 shrink-0">{prompt}</span>
+                    <span className="text-white ml-1 break-words">{entry.content}</span>
                   </div>
                 )}
                 {(entry.type === 'output' || entry.type === 'error' || entry.type === 'component') && (
-                  <CommandOutput 
-                    type={entry.type}
-                    content={entry.content}
-                    component={entry.component}
-                  />
+                  <div className="relative z-10">
+                    <CommandOutput 
+                      type={entry.type}
+                      content={entry.content}
+                      component={entry.component}
+                    />
+                  </div>
                 )}
               </motion.div>
             ))}
@@ -328,7 +338,7 @@ export default function Terminal() {
         {/* Fluid Organic Input Area */}
         <motion.form 
           onSubmit={handleSubmit} 
-          className="sticky bottom-0 p-4"
+          className="sticky bottom-0 p-4 z-50"
           initial={{ y: 50, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ delay: 1, duration: 0.8, type: "spring", stiffness: 100 }}
