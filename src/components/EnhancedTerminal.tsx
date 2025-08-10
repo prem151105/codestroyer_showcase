@@ -32,7 +32,6 @@ import {
 
 import { 
   ErrorBoundary, 
-  ResourcePreloader,
   usePerformanceMonitor
 } from './PerformanceOptimized'
 
@@ -204,13 +203,6 @@ export default function EnhancedTerminal({ className = '' }: EnhancedTerminalPro
   return (
     <ErrorBoundary>
       <OptimizedContainer className={`min-h-screen relative ${className}`}>
-        {/* Resource Preloader */}
-        <ResourcePreloader 
-          fonts={[
-            'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap'
-          ]}
-        />
-
         {/* Skip Links for Accessibility */}
         <SkipLink href="#main-content">Skip to main content</SkipLink>
         <SkipLink href="#command-input">Skip to command input</SkipLink>
