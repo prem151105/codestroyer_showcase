@@ -122,53 +122,176 @@ export default function Terminal() {
       >
         {/* Enhanced Welcome */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="welcome-banner mb-6 md:mb-8"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="welcome-banner mb-6 md:mb-8 relative"
         >
+          {/* Dynamic Background Particles */}
+          <div className="absolute inset-0 overflow-hidden rounded-xl">
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full opacity-30"
+                animate={{
+                  x: [0, Math.random() * 200 - 100],
+                  y: [0, Math.random() * 100 - 50],
+                  scale: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 3,
+                  repeat: Infinity,
+                  delay: Math.random() * 2,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+              />
+            ))}
+          </div>
+
           <motion.h1 
-            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-center tracking-wide"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-center tracking-wide relative z-10"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 0.3,
+              type: "spring",
+              stiffness: 100,
+              damping: 15
+            }}
+            whileHover={{
+              scale: 1.05,
+              textShadow: "0 0 20px rgba(6, 182, 212, 0.5)",
+              transition: { duration: 0.3 }
+            }}
           >
-            ANURAG JAYASWAL
+            {/* Animated text with typewriter effect */}
+            {"ANURAG JAYASWAL".split("").map((char, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.05,
+                  delay: 0.5 + index * 0.05
+                }}
+                className="inline-block"
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
           </motion.h1>
           
           <motion.div 
-            className="text-center space-y-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            className="text-center space-y-3 relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
           >
-            <p className="text-lg md:text-xl text-gray-300 font-medium">
-              AI/ML Developer & Software Engineer
-            </p>
+            <motion.p 
+              className="text-lg md:text-xl text-gray-300 font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.4 }}
+            >
+              {/* Typewriter effect for subtitle */}
+              {"AI/ML Developer & Software Engineer".split("").map((char, index) => (
+                <motion.span
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.03,
+                    delay: 1.5 + index * 0.03
+                  }}
+                  className="inline-block"
+                >
+                  {char === " " ? "\u00A0" : char}
+                </motion.span>
+              ))}
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm md:text-base text-gray-400">
+            <motion.div 
+              className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm md:text-base text-gray-400"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.3, duration: 0.5 }}
+            >
               <span>Type</span>
-              <kbd className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-lg font-mono font-semibold shadow-lg">
+              <motion.kbd 
+                className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-lg font-mono font-semibold shadow-lg cursor-pointer"
+                whileHover={{ 
+                  scale: 1.1, 
+                  boxShadow: "0 0 20px rgba(249, 115, 22, 0.6)",
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  boxShadow: [
+                    "0 4px 15px rgba(249, 115, 22, 0.3)",
+                    "0 4px 25px rgba(249, 115, 22, 0.5)",
+                    "0 4px 15px rgba(249, 115, 22, 0.3)"
+                  ]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                onClick={() => {
+                  setInput('help')
+                  handleSubmit(new Event('submit') as any)
+                }}
+              >
                 help
-              </kbd>
+              </motion.kbd>
               <span>to explore my portfolio</span>
-            </div>
+            </motion.div>
             
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500 mt-4">
-              <span className="flex items-center gap-1">
-                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">↑</kbd>
-                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">↓</kbd>
-                History
-              </span>
-              <span className="flex items-center gap-1">
-                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">Tab</kbd>
-                Autocomplete
-              </span>
-              <span className="flex items-center gap-1">
-                <kbd className="bg-gray-700 px-1.5 py-0.5 rounded">Ctrl+L</kbd>
-                Clear
-              </span>
-            </div>
+            <motion.div 
+              className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500 mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.6, duration: 0.5 }}
+            >
+              {[
+                { keys: ['↑', '↓'], label: 'History' },
+                { keys: ['Tab'], label: 'Autocomplete' },
+                { keys: ['Ctrl+L'], label: 'Clear' }
+              ].map((shortcut, index) => (
+                <motion.span
+                  key={shortcut.label}
+                  className="flex items-center gap-1"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 2.7 + index * 0.1 }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: 'rgb(156 163 175)',
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  {shortcut.keys.map((key, keyIndex) => (
+                    <motion.kbd
+                      key={key}
+                      className="bg-gray-700 px-1.5 py-0.5 rounded text-gray-300 border border-gray-600"
+                      whileHover={{ 
+                        backgroundColor: 'rgb(55 65 81)', 
+                        borderColor: 'rgb(107 114 128)',
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      {key}
+                    </motion.kbd>
+                  ))}
+                  {shortcut.label}
+                </motion.span>
+              ))}
+            </motion.div>
           </motion.div>
         </motion.div>
 
@@ -260,7 +383,11 @@ export default function Terminal() {
                       "0 0 20px rgba(255,255,0,0.6)"
                     ]
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 }
+                }}
                   style={{
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
