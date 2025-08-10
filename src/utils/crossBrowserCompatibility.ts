@@ -73,38 +73,25 @@ export class BrowserCompatibility {
   }
 
   private addPolyfills() {
-    // ResizeObserver polyfill
+    // Modern browsers support these features natively
+    // ResizeObserver - supported in all modern browsers
     if (!window.ResizeObserver) {
-      import('resize-observer-polyfill').then(module => {
-        window.ResizeObserver = module.default
-      }).catch(() => {
-        console.warn('ResizeObserver polyfill failed to load')
-      })
+      console.warn('ResizeObserver not supported - using fallback')
     }
 
-    // IntersectionObserver polyfill
+    // IntersectionObserver - supported in all modern browsers
     if (!window.IntersectionObserver) {
-      import('intersection-observer').catch(() => {
-        console.warn('IntersectionObserver polyfill failed to load')
-      })
+      console.warn('IntersectionObserver not supported - using fallback')
     }
 
-    // Smooth scroll polyfill for older browsers
+    // Smooth scroll - widely supported, fallback to instant scroll
     if (!CSS.supports('scroll-behavior', 'smooth')) {
-      import('smoothscroll-polyfill').then(smoothscroll => {
-        smoothscroll.polyfill()
-      }).catch(() => {
-        console.warn('Smooth scroll polyfill failed to load')
-      })
+      console.warn('Smooth scroll not supported - using instant scroll')
     }
 
-    // Custom properties polyfill for IE
+    // CSS variables - universally supported in modern browsers
     if (!CSS.supports('color', 'var(--test)')) {
-      import('css-vars-ponyfill').then(module => {
-        module.default()
-      }).catch(() => {
-        console.warn('CSS variables polyfill failed to load')
-      })
+      console.warn('CSS variables not supported - using fallback values')
     }
   }
 
