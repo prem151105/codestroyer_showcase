@@ -1,0 +1,40 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="terminalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0080ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8000ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="#000000" stroke="url(#terminalGradient)" stroke-width="2"/>
+  
+  <!-- Terminal window -->
+  <rect x="6" y="8" width="20" height="16" rx="2" fill="#1a1a1a" stroke="url(#terminalGradient)" stroke-width="1"/>
+  
+  <!-- Terminal header dots -->
+  <circle cx="8" cy="10.5" r="1" fill="#ff5555"/>
+  <circle cx="11" cy="10.5" r="1" fill="#ffaa00"/>
+  <circle cx="14" cy="10.5" r="1" fill="#00ff00"/>
+  
+  <!-- Terminal text lines -->
+  <rect x="8" y="13" width="8" height="1" fill="url(#terminalGradient)" filter="url(#glow)"/>
+  <rect x="8" y="15" width="12" height="1" fill="url(#terminalGradient)" filter="url(#glow)"/>
+  <rect x="8" y="17" width="6" height="1" fill="url(#terminalGradient)" filter="url(#glow)"/>
+  
+  <!-- Cursor -->
+  <rect x="15" y="17" width="1" height="1" fill="#00ffff" filter="url(#glow)">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Code brackets -->
+  <text x="20" y="17" font-family="monospace" font-size="4" fill="url(#terminalGradient)" filter="url(#glow)">&gt;</text>
+</svg>

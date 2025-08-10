@@ -45,9 +45,9 @@ export const metadata: Metadata = {
   category: 'Technology',
   metadataBase: new URL('https://anurag-portfolio.vercel.app'),
   icons: {
-    icon: '/terminal-icon.svg',
-    shortcut: '/terminal-icon.svg',
-    apple: '/terminal-icon.svg',
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
   openGraph: {
     type: 'profile',
