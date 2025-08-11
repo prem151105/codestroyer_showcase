@@ -66,7 +66,7 @@ export default function FloatingLogo() {
               height: '200px',
             }}
             animate={{
-              y: [-200, window.innerHeight],
+              y: [-200, typeof window !== 'undefined' ? window.innerHeight : 1000],
               opacity: [0, 0.6, 0]
             }}
             transition={{

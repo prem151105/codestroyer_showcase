@@ -244,7 +244,7 @@ export default function TwoSidedLayout() {
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -window.innerHeight - 100],
+              y: [0, typeof window !== 'undefined' ? -window.innerHeight - 100 : -1100],
               opacity: [0, 0.8, 0]
             }}
             transition={{
